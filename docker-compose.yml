@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: dyk-db-service
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: dyk
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - dyk
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: dyk-phpmyadmin-service
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: "root"
+      UPLOAD_LIMIT: 50M
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - dyk
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: dyk-mailhog-service
+    restart: unless-stopped
+    ports:
+      - "8025:8025"  # Web UI
+      - "1025:1025"  # SMTP
+    networks:
+      - dyk
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  dyk:
+    driver: bridge

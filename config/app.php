@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Logo URL (for emails)
+    |--------------------------------------------------------------------------
+    |
+    | Full URL to your logo image. Used in email layouts. Must be publicly
+    | accessible (e.g. https://yoursite.com/images/logo.png).
+    |
+    */
+
+    'logo_url' => env('APP_LOGO_URL', ''),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

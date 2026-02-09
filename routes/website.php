@@ -9,31 +9,31 @@ Route::get('/', function () {
 
 Route::get('/privacy-policy', function () {
     return view('website.privacy-policy');
-});
+})->name('website.privacy-policy');
 
 Route::get('/terms-of-service', function () {
     return view('website.terms-of-service');
-});
+})->name('website.terms-of-service');
 
 Route::get('/subscriptions', function () {
     return view('website.subscriptions');
-});
+})->name('website.subscriptions');
 
 Route::get('/refunds', function () {
     return view('website.refunds');
-});
+})->name('website.refunds');
 
 Route::get('/data-deletion', function () {
     return view('website.data-deletion');
-});
+})->name('website.data-deletion');
 
 Route::get('/support-contact', function () {
     return view('website.support-contact');
-});
+})->name('website.support-contact');
 
 Route::get('/blog', function () {
     return view('website.blog');
-});
+})->name('website.blog');
 
 Route::get('/blog/{slug}', function ($slug) {
     $posts = [

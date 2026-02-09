@@ -2,30 +2,31 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class UserOtp extends Model
+class PasswordResetToken extends Model
 {
-    use HasUuids;
+    protected $table = 'password_reset_tokens';
 
-    protected $fillable = ['email', 'otp', 'expires_at', 'attempts'];
+    public $incrementing = false;
+
+    protected $keyType = 'string';
+
+    protected $fillable = [
+        'email',
+        'token',
+    ];
 
     protected function casts(): array
     {
         return [
-            'expires_at' => 'datetime',
+            'created_at' => 'datetime',
         ];
     }
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'email', 'email');
-    }
-
-    public function isValid(): bool
-    {
-        return $this->expires_at->isFuture();
     }
 }

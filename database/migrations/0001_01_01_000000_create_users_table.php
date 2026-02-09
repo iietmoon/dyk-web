@@ -35,7 +35,7 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->uuid('id')->primary();
             $table->foreignUuid('user_id')->nullable()->index()->constrained('users')->nullOnDelete();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
@@ -44,7 +44,7 @@ return new class extends Migration
         });
 
         Schema::create('personal_access_tokens', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->uuidMorphs('tokenable');
             $table->string('name');
             $table->string('token', 64)->unique();
@@ -55,7 +55,7 @@ return new class extends Migration
         });
 
         Schema::create('user_otps', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('email')->unique();
             $table->string('otp', 4);
             $table->timestamp('expires_at')->index();

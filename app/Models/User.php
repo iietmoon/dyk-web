@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -51,5 +52,35 @@ class User extends Authenticatable
             'password' => 'hashed',
             'topics' => 'array',
         ];
+    }
+
+    /**
+     * Get the sessions for the user.
+     *
+     * @return HasMany<Session, $this>
+     */
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    /**
+     * Get the password reset tokens for the user (by email).
+     *
+     * @return HasMany<PasswordResetToken, $this>
+     */
+    public function passwordResetTokens(): HasMany
+    {
+        return $this->hasMany(PasswordResetToken::class, 'email', 'email');
+    }
+
+    /**
+     * Get the OTP records for the user (by email).
+     *
+     * @return HasMany<UserOtp, $this>
+     */
+    public function otps(): HasMany
+    {
+        return $this->hasMany(UserOtp::class, 'email', 'email');
     }
 }

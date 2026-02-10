@@ -1,6 +1,5 @@
-    <?php
-
-    namespace App\Http\Controllers\Api\v1;
+<?php
+namespace App\Http\Controllers\Api\v1;
 
     use App\Enums\HttpStatusCode;
     use App\Http\Controllers\Controller;

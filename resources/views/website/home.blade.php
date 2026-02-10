@@ -21,11 +21,11 @@
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#google-play"
                     class="px-1 rounded-full bg-[#1E1E1E] border-2 border-neutral-300 shadow-[0_1px_2px_0_rgb(0_0_0_/_0.05),inset_0_1px_0_0_rgba(255,255,255,0.28),inset_0_-1px_0_0_rgba(0,0,0,0.12)]">
-                    <img src="/icons/google-play.svg" class="rounded-full w-32 object-cover" />
+                    <img src="{{ asset('icons/google-play.svg') }}" class="rounded-full w-32 object-cover" />
                 </a>
                 <a href="#google-play"
                     class="px-1 rounded-full bg-[#1E1E1E] border-2 border-neutral-300 shadow-[0_1px_2px_0_rgb(0_0_0_/_0.05),inset_0_1px_0_0_rgba(255,255,255,0.28),inset_0_-1px_0_0_rgba(0,0,0,0.12)]">
-                    <img src="/icons/app-store.svg" class="rounded-full w-30 object-cover" />
+                    <img src="{{ asset('icons/app-store.svg') }}" class="rounded-full w-30 object-cover" />
                 </a>
             </div>
         </div>
@@ -488,11 +488,11 @@
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="#google-play"
                     class="px-1 rounded-full bg-[#1E1E1E] border-2 border-neutral-300 shadow-[0_1px_2px_0_rgb(0_0_0_/_0.05),inset_0_1px_0_0_rgba(255,255,255,0.28),inset_0_-1px_0_0_rgba(0,0,0,0.12)]">
-                    <img src="/icons/google-play.svg" class="rounded-full w-32 object-cover" />
+                    <img src="{{ asset('icons/google-play.svg') }}" class="rounded-full w-32 object-cover" />
                 </a>
                 <a href="#google-play"
                     class="px-1 rounded-full bg-[#1E1E1E] border-2 border-neutral-300 shadow-[0_1px_2px_0_rgb(0_0_0_/_0.05),inset_0_1px_0_0_rgba(255,255,255,0.28),inset_0_-1px_0_0_rgba(0,0,0,0.12)]">
-                    <img src="/icons/app-store.svg" class="rounded-full w-30 object-cover" />
+                    <img src="{{ asset('icons/app-store.svg') }}" class="rounded-full w-30 object-cover" />
                 </a>
             </div>
             <section class="relative mt-[150px]">

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Payments\PaymentController;
 
 Route::get('/', function () {
     return view('website.home');
@@ -130,3 +131,8 @@ Route::get('/blog/{slug}', function ($slug) {
         'next_posts' => $next_posts,
     ]);
 });
+
+Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('website.payment');
+Route::get('/payment/success', function () {
+    return view('website.payment-success');
+})->name('website.payment.success');

@@ -83,4 +83,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserOtp::class, 'email', 'email');
     }
+
+    /**
+     * Get the subscriptions for the user.
+     *
+     * @return HasMany<Subscription, $this>
+     */
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    /**
+     * Get the transactions for the user.
+     *
+     * @return HasMany<Transaction, $this>
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * Get the transaction tokens for the user (payment links).
+     *
+     * @return HasMany<TransactionToken, $this>
+     */
+    public function transactionTokens(): HasMany
+    {
+        return $this->hasMany(TransactionToken::class);
+    }
 }

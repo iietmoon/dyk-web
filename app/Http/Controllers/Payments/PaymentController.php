@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class PaymentController extends Controller
 {
+
+    public function getPlans(){
+        $plans = Plan::where('is_active', true)->get();
+        return HttpStatusCode::Ok->toResponse([
+            'data' => $plans,
+        ]);
+    }
     /**
      * Show the payment page (view) for a token-based link. Resolves token and displays plan + user.
      * Public route – no auth. URL: /payment?token=...

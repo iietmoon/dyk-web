@@ -23,6 +23,6 @@ Route::prefix('v1')->group(function () {
 
         // Create payment link (authenticated user + plan)
         Route::post('/payment/create-link', [PaymentController::class, 'createPaymentLink'])->name('api.v1.payment-link.create');
-
+        Route::get('/payment/plans', [PaymentController::class, 'getPlans'])->name('api.v1.payment-plans.get');
     });
 });

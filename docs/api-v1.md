@@ -61,10 +61,10 @@ Verifies the OTP, creates or finds the user, and returns a Bearer token. Use the
 
 **Body (JSON):**
 
-| Field | Type   | Required | Description   |
-|--------|--------|----------|---------------|
-| email  | string | yes      | Same email used in authenticate |
-| otp    | string | yes      | 4-character OTP from email      |
+| Field | Type   | Required | Description                          |
+|-------|--------|----------|--------------------------------------|
+| email | string | yes      | Same email used in authenticate      |
+| otp   | string | yes      | 4-character OTP from email          |
 
 **Success (200):**
 
@@ -80,7 +80,7 @@ Verifies the OTP, creates or finds the user, and returns a Bearer token. Use the
 }
 ```
 
-**Validation / invalid OTP (422):**
+**Validation / invalid or expired OTP (422):**
 
 ```json
 {
@@ -91,6 +91,8 @@ Verifies the OTP, creates or finds the user, and returns a Bearer token. Use the
   }
 }
 ```
+
+Or when OTP has expired: `"otp": ["OTP expired."]`
 
 ---
 
@@ -156,6 +158,80 @@ Same body as **Update profile**. Use after first login when `is_new_user` was tr
   "data": { "user": { ... } }
 }
 ```
+
+---
+
+### Logout
+
+**POST** `/api/v1/logout`
+
+Revokes all tokens for the current user. After this, the Bearer token can no longer be used.
+
+**Success (200):**
+
+```json
+{
+  "code": 200,
+  "message": "Logged out successfully."
+}
+```
+
+**Unauthorized (401):** Missing or invalid token.
+
+---
+
+### Create payment link
+
+**POST** `/api/v1/payment/create-link`
+
+Creates a one-time payment link for the authenticated user and the given plan. The link can be opened in a browser to complete payment. Link expires in 60 minutes.
+
+**Body (JSON):**
+
+| Field   | Type   | Required | Description                    |
+|---------|--------|----------|--------------------------------|
+| plan_id | string | yes      | UUID of an active plan        |
+
+**Success (201):**
+
+```json
+{
+  "code": 201,
+  "message": "Payment link created.",
+  "data": {
+    "token": "...",
+    "payment_link": "https://example.com/payment?token=...",
+    "plan": { "id": "...", "name": "...", ... },
+    "expires_in_minutes": 60
+  }
+}
+```
+
+**Validation error (422):**
+
+```json
+{
+  "code": 422,
+  "message": "Unprocessable Entity",
+  "errors": {
+    "plan_id": ["The plan id field is required."]
+  }
+}
+```
+
+**Plan not found or inactive (404):**
+
+```json
+{
+  "code": 404,
+  "message": "Not Found",
+  "errors": {
+    "plan_id": ["Plan not found or inactive."]
+  }
+}
+```
+
+**Unauthorized (401):** Missing or invalid token.
 
 ---
 

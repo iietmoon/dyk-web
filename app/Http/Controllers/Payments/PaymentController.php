@@ -14,7 +14,7 @@ class PaymentController extends Controller
 
     public function getPlans(){
         $plans = Plan::where('is_active', true)->get();
-        return HttpStatusCode::Ok->toResponse([
+        return HttpStatusCode::OK->toResponse([
             'data' => $plans,
         ]);
     }

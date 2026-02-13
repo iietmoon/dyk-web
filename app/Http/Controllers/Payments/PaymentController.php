@@ -8,6 +8,7 @@ use App\Models\Plan;
 use App\Models\TransactionToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
@@ -81,7 +82,7 @@ class PaymentController extends Controller
         }
 
         $user = $request->user();
-        $token = generate_signed_token(64, 60);
+        $token = Str::random(64);
 
         TransactionToken::create([
             'user_id' => $user->id,

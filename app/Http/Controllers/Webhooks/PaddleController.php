@@ -42,7 +42,7 @@ class PaddleController extends Controller
 
         $env = strtolower((string) config('services.paddle.environment', 'sandbox'));
         $baseUrl = $env === 'production' ? 'https://api.paddle.com' : 'https://sandbox-api.paddle.com';
-        $url = "{$baseUrl}/subscriptions/{$subscriptionId}";
+        $url = "{$baseUrl}/subscriptions";
 
         $response = Http::withToken($apiKey)
             ->acceptJson()

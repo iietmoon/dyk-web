@@ -24,9 +24,11 @@ class AutheticationController extends Controller
      */
     public function me(Request $request)
     {
-        $user = $request->user();
+        $user = $request->user()->load('subscription.plan');
 
-        return HttpStatusCode::OK->toResponse(['data' => $user]);
+        return HttpStatusCode::OK->toResponse([
+            'data' => $user,
+        ]);
     }
 
     /**

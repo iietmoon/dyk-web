@@ -102,6 +102,11 @@
             }
 
             var successUrl = @json(route('website.payment.success'));
+            var customData = @json([
+                'user_id' => $transactionToken->user_id ?? null,
+                'plan_id' => $transactionToken->plan_id ?? null,
+                'transaction_token_id' => $transactionToken->id ?? null,
+            ]);
 
             Paddle.Initialize({
                 token: clientToken,
@@ -135,6 +140,9 @@
                     if (customerCountry) {
                         options.customer.address = { countryCode: customerCountry };
                     }
+                }
+                if (customData && Object.keys(customData).length) {
+                    options.customData = customData;
                 }
                 Paddle.Checkout.open(options);
             }

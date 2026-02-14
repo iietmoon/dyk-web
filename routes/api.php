@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ApiAuthetication;
+use App\Http\Middleware\OptionalApiAuthentication;
+use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\AutheticationController;
 use App\Http\Controllers\Payments\PaymentController;
 /*
@@ -14,6 +16,10 @@ Route::prefix('v1')->group(function () {
     // Auth (public)
     Route::post('/authenticate', [AutheticationController::class, 'authenticate'])->name('api.v1.authenticate');
     Route::post('/verify-otp', [AutheticationController::class, 'verifyOtp'])->name('api.v1.verify-otp');
+
+    Route::get('/articles', [ArticleController::class, 'index'])
+        ->middleware(OptionalApiAuthentication::class)
+        ->name('api.v1.articles.index');
 
     Route::middleware(ApiAuthetication::class)->group(function () {
         Route::get('/me', [AutheticationController::class, 'me'])->name('api.v1.me');

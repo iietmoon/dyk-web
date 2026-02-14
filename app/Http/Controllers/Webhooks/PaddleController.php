@@ -37,7 +37,7 @@ class PaddleController extends Controller
         $eventType = $body['event_type'] ?? 'unknown';
 
         if ($eventType === 'subscription.activated') {
-            $subscription = $this->paddle->subscriptions->get($body['data']['subscription_id']);
+            $subscription = $this->paddle->subscriptions->get($body['data']['id']);
             Log::channel('single')->info('Paddle subscription.activated', [
                 'data' => $subscription,
             ]);

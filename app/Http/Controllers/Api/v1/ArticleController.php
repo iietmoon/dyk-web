@@ -6,6 +6,7 @@ use App\Enums\HttpStatusCode;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ArticleController extends Controller
 {
@@ -34,7 +35,14 @@ class ArticleController extends Controller
             ->orderByDesc('published_at')
             ->paginate(self::PER_PAGE);
 
-        $hasSubscription = $this->userHasActiveSubscription($request);
+        $user = $request->user()->load('subscription.plan');
+        
+        $hasSubscription = false;
+
+        if($user && $user->subscription){
+            $hasSubscription = true;
+        }
+
         $items = collect($articles->items())->map(function (Article $article, int $index) use ($hasSubscription) {
             $unlocked = $hasSubscription || $index < self::FREE_UNLOCKED_COUNT;
             return $this->formatArticleForResponse($article, $unlocked);
@@ -64,15 +72,17 @@ class ArticleController extends Controller
     }
 
     /**
+     * List response: never include full body. Unlocked = short teaser, locked = null.
+     *
      * @return array<string, mixed>
      */
     private function formatArticleForResponse(Article $article, bool $unlocked): array
     {
         $arr = $article->toArray();
         $arr['unlocked'] = $unlocked;
-        if (! $unlocked) {
-            $arr['body'] = null;
-        }
+        $arr['body'] = $unlocked
+            ? Str::limit(strip_tags($article->body), 200)
+            : null;
         return $arr;
     }
 }

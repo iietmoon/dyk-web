@@ -17,10 +17,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/authenticate', [AutheticationController::class, 'authenticate'])->name('api.v1.authenticate');
     Route::post('/verify-otp', [AutheticationController::class, 'verifyOtp'])->name('api.v1.verify-otp');
 
-    Route::get('/articles', [ArticleController::class, 'index'])
-        ->middleware(OptionalApiAuthentication::class)
-        ->name('api.v1.articles.index');
-
     Route::middleware(ApiAuthetication::class)->group(function () {
         Route::get('/me', [AutheticationController::class, 'me'])->name('api.v1.me');
         Route::post('/update-profile', [AutheticationController::class, 'updateProfile'])->name('api.v1.update-profile');
@@ -30,5 +26,6 @@ Route::prefix('v1')->group(function () {
         // Create payment link (authenticated user + plan)
         Route::post('/payment/create-link', [PaymentController::class, 'createPaymentLink'])->name('api.v1.payment-link.create');
         Route::get('/payment/plans', [PaymentController::class, 'getPlans'])->name('api.v1.payment-plans.get');
+        Route::get('/articles', [ArticleController::class, 'index'])->name('api.v1.articles.index');
     });
 });

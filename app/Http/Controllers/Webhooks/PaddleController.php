@@ -9,15 +9,20 @@ use Illuminate\Support\Facades\Log;
 class PaddleController extends Controller
 {
     /**
-     * Handle Paddle "subscription.created" webhook (e.g. after checkout).
-     * Logs the full payload for testing. Return 200 so Paddle marks the delivery as successful.
+     * Handle all Paddle webhook events (transaction.*, customer.*, subscription.*, etc.).
+     * Paddle sends event_type in the body. Log by event_type for debugging; return 200 so Paddle marks delivery as successful.
      */
-    public function subscriptionCreated(Request $request)
+    public function handle(Request $request)
     {
-        Log::channel('single')->info('Paddle webhook: subscription.created', [
-            'headers' => $request->headers->all(),
-            'body' => $request->all(),
-            'raw' => $request->getContent(),
+        $body = $request->all();
+        $eventType = $body['event_type'] ?? 'unknown';
+
+        Log::channel('single')->info("Paddle webhook: {$eventType}", [
+            'event_id' => $body['event_id'] ?? null,
+            'event_type' => $eventType,
+            'occurred_at' => $body['occurred_at'] ?? null,
+            'data' => $body['data'] ?? null,
+            'body' => $body,
         ]);
 
         return response()->json(['message' => 'received'], 200);

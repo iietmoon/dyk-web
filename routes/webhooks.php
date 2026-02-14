@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Webhooks\PaddleController;
 
-Route::post('/webhooks/paddle/subscription-created', [PaddleController::class, 'subscriptionCreated'])
-    ->name('webhooks.paddle.subscription-created');
+// Single URL for all Paddle events (transaction.*, customer.*, subscription.*, etc.)
+Route::post('/webhooks/paddle', [PaddleController::class, 'handle'])->name('webhooks.paddle');

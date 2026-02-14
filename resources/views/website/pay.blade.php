@@ -102,11 +102,14 @@
             }
 
             var successUrl = @json(route('website.payment.success'));
-            var customData = @json([
-                'user_id' => $transactionToken->user_id ?? null,
-                'plan_id' => $transactionToken->plan_id ?? null,
-                'transaction_token_id' => $transactionToken->id ?? null,
-            ]);
+            @php
+                $paddleCustomData = [
+                    'user_id' => $transactionToken->user_id ?? null,
+                    'plan_id' => $transactionToken->plan_id ?? null,
+                    'transaction_token_id' => $transactionToken->id ?? null,
+                ];
+            @endphp
+            var customData = @json($paddleCustomData);
 
             Paddle.Initialize({
                 token: clientToken,

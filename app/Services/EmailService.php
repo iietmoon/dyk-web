@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Mail\OtpMail;
+use App\Mail\WelcomeMail;
+use App\Models\User;
 use App\Models\UserOtp;
 use Illuminate\Support\Facades\Mail;
 
@@ -43,5 +45,13 @@ class EmailService
             'otp_record' => $otpRecord,
             'expires_at' => $expiresAt,
         ];
+    }
+
+    /**
+     * Send a welcome email to the user (e.g. after successful subscription).
+     */
+    public function sendWelcomeEmail(User $user): void
+    {
+        Mail::to($user->email)->send(new WelcomeMail($user));
     }
 }

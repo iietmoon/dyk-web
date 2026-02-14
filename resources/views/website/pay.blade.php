@@ -57,6 +57,18 @@
             <div class="p-5">
                 <p class="text-xs text-[#737373] mb-4">Link expires {{ $expires_at->format('M j, g:i A') }}</p>
                 @if($plan->provider === 'paddle' && $plan->provider_product_id)
+                    {{-- Full-screen overlay shown when checkout completes; 20s countdown then redirect --}}
+                    <div id="payment-complete-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#0f0f0f]/95 text-white hidden" aria-live="polite" aria-busy="true">
+                        <div class="flex flex-col items-center justify-center max-w-sm mx-auto px-6 text-center">
+                            <div class="relative w-16 h-16 mb-8" aria-hidden="true">
+                                <div class="absolute inset-0 rounded-full border-4 border-white/20"></div>
+                                <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-white animate-spin"></div>
+                            </div>
+                            <h1 class="text-xl font-bold mb-2">Payment complete</h1>
+                            <p class="text-sm text-white/80 mb-2">Confirming your subscription. Redirecting shortly…</p>
+                            <p class="text-xs text-white/50">Redirecting in <span id="payment-redirect-seconds">20</span>s…</p>
+                        </div>
+                    </div>
                     <div id="paddle-checkout-container" class="paddle-checkout-container min-h-[420px]"></div>
                     <hr class="my-4 border-gray-200">
                     <p class="mt-3 text-xs text-[#737373] flex justify-center items-center flex-wrap gap-2">
@@ -119,7 +131,22 @@
                         var params = new URLSearchParams();
                         if (data.transaction_id) params.set('transaction_id', data.transaction_id);
                         if (data.id) params.set('checkout_id', data.id);
-                        window.location.href = successUrl + (params.toString() ? '?' + params.toString() : '');
+                        var redirectUrl = successUrl + (params.toString() ? '?' + params.toString() : '');
+
+                        var overlay = document.getElementById('payment-complete-overlay');
+                        var secondsEl = document.getElementById('payment-redirect-seconds');
+                        if (overlay) overlay.classList.remove('hidden');
+                        var delaySeconds = 20;
+                        var countdown = delaySeconds;
+                        if (secondsEl) secondsEl.textContent = countdown;
+                        var t = setInterval(function() {
+                            countdown -= 1;
+                            if (secondsEl) secondsEl.textContent = countdown;
+                            if (countdown <= 0) {
+                                clearInterval(t);
+                                window.location.href = redirectUrl;
+                            }
+                        }, 1000);
                     }
                 },
                 checkout: {

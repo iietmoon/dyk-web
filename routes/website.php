@@ -133,6 +133,5 @@ Route::get('/blog/{slug}', function ($slug) {
 });
 
 Route::get('/payment', [PaymentController::class, 'showPaymentPage'])->name('website.payment');
-Route::get('/payment/success', function () {
-    return view('website.payment-success');
-})->name('website.payment.success');
+Route::get('/payment/success', [PaymentController::class, 'showPaymentSuccessPage'])->name('website.payment.success');
+Route::get('/payment/error', [PaymentController::class, 'showPaymentErrorPage'])->name('website.payment.error');

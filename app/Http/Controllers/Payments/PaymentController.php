@@ -13,7 +13,13 @@ use Illuminate\Support\Str;
 class PaymentController extends Controller
 {
 
-    public function getPlans(){
+    /**
+     * Get all active subscription plans.
+     *
+     * @group Payments
+     */
+    public function getPlans()
+    {
         $plans = Plan::where('is_active', true)->get();
         return HttpStatusCode::OK->toResponse([
             'data' => $plans,
@@ -58,8 +64,10 @@ class PaymentController extends Controller
     }
 
     /**
-     * Create a payment link for the authenticated user and the given plan.
-     * Protected route – requires auth (same style as /me, update-profile).
+     * Create a one-time payment link for the authenticated user and the given plan. Link expires in 60 minutes.
+     *
+     * @group Payments
+     * @bodyParam plan_id string required UUID of an active plan. Example: 019c4e61-596c-70b3-b328-61b379b7854d
      */
     public function createPaymentLink(Request $request)
     {

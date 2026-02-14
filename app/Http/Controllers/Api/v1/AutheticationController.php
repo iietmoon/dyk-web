@@ -17,6 +17,11 @@ class AutheticationController extends Controller
         private EmailService $emailService
     ) {}
 
+    /**
+     * Get the currently authenticated user.
+     *
+     * @group Profile
+     */
     public function me(Request $request)
     {
         $user = $request->user();
@@ -24,6 +29,15 @@ class AutheticationController extends Controller
         return HttpStatusCode::OK->toResponse(['data' => $user]);
     }
 
+    /**
+     * Update the authenticated user's profile (name, birthdate, gender, topics).
+     *
+     * @group Profile
+     * @bodyParam name string required Max 255. Example: John Doe
+     * @bodyParam birthdate string required Date (Y-m-d). Example: 1990-01-15
+     * @bodyParam gender string required Max 255. Example: male
+     * @bodyParam topics array required Array of topic IDs. Example: [1, 2, 3]
+     */
     public function updateProfile(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,8 +71,11 @@ class AutheticationController extends Controller
     }
 
     /**
-     * Send a 4-character OTP to the given email with an expiration time of 10 minutes.
-     * Public route (no auth). Stores OTP in user_otps and sends email.
+     * Request OTP (send login code to email). Sends a 4-digit OTP; expires in 10 minutes.
+     *
+     * @group Authentication
+     * @unauthenticated
+     * @bodyParam email string required Valid email address. Example: user@example.com
      */
     public function authenticate(Request $request)
     {
@@ -79,6 +96,14 @@ class AutheticationController extends Controller
         ]);
     }
 
+    /**
+     * Verify OTP and get Bearer token. Creates or finds the user. Use the token in Authorization header for protected routes.
+     *
+     * @group Authentication
+     * @unauthenticated
+     * @bodyParam email string required Same email used in authenticate. Example: user@example.com
+     * @bodyParam otp string required 4-character OTP from email. Example: 1234
+     */
     public function verifyOtp(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -141,6 +166,15 @@ class AutheticationController extends Controller
         ]);
     }
 
+    /**
+     * Finish registration (name, birthdate, gender, topics). Use after first login when is_new_user was true.
+     *
+     * @group Profile
+     * @bodyParam name string required Max 255. Example: John Doe
+     * @bodyParam birthdate string required Date (Y-m-d). Example: 1990-01-15
+     * @bodyParam gender string required Max 255. Example: male
+     * @bodyParam topics array required Array of topic IDs. Example: [1, 2, 3]
+     */
     public function finishRegistration(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -173,6 +207,11 @@ class AutheticationController extends Controller
         ]);
     }
 
+    /**
+     * Log out: revoke all tokens for the current user.
+     *
+     * @group Profile
+     */
     public function logout(Request $request)
     {
         $user = $request->user();

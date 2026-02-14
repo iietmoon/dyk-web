@@ -11,9 +11,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Paddle\SDK\Client;
+use Paddle\SDK\Environment;
+use Paddle\SDK\Options;
+
 
 class PaddleController extends Controller
 {
+    protected $paddle;
+
+    public function __construct()
+    {
+        $this->paddle = new Client(
+            apiKey: config('services.paddle.client_token'),
+            options: new Options(Environment::SANDBOX),
+        );
+    }
     /**
      * Handle all Paddle webhook events (transaction.*, customer.*, subscription.*, etc.).
      * On transaction.paid with custom_data (user_id, plan_id, transaction_token_id), creates the user's subscription and transaction record.
@@ -23,16 +36,10 @@ class PaddleController extends Controller
         $body = $request->all();
         $eventType = $body['event_type'] ?? 'unknown';
 
-        Log::channel('single')->info("Paddle webhook: {$eventType}", [
-            'event_id' => $body['event_id'] ?? null,
-            'event_type' => $eventType,
-            'occurred_at' => $body['occurred_at'] ?? null,
-            'data' => $body['data'] ?? null,
-        ]);
-
         if ($eventType === 'subscription.activated') {
+            $subscription = $this->paddle->subscriptions->get($body['data']['subscription_id']);
             Log::channel('single')->info('Paddle subscription.activated', [
-                'data' => $body['data'] ?? null,
+                'data' => $subscription,
             ]);
         }
 

@@ -36,6 +36,7 @@ return [
     ],
 
     'paddle' => [
+        'api_key' => env('PADDLE_API_KEY'),
         'client_token' => env('PADDLE_CLIENT_TOKEN'),
         'environment' => env('PADDLE_ENVIRONMENT', 'sandbox'), // 'sandbox' or 'production'
         'default_country' => env('PADDLE_DEFAULT_COUNTRY', 'US'), // ISO 3166-1 alpha-2, e.g. US, GB; leave empty to not prefill

@@ -1,0 +1,206 @@
+name: Bookmarks
+description: ''
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/bookmarks
+    metadata:
+      custom: []
+      groupName: Bookmarks
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "List the current user's bookmarked articles with pagination."
+      description: 'Each item includes the bookmark (id, created_at) and the article (id, title, slug, excerpt, image, published_at).'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters:
+      page:
+        custom: []
+        name: page
+        description: 'Page number for pagination.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanQueryParameters:
+      page: 1
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"code":401,"message":"Unauthorized"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/bookmarks
+    metadata:
+      custom: []
+      groupName: Bookmarks
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Save (add) an article to the current user's bookmarks."
+      description: 'Returns the created bookmark with a snippet of the article. Returns 409 if the article is already bookmarked.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      article_id:
+        custom: []
+        name: article_id
+        description: 'UUID of the article to bookmark.'
+        required: true
+        example: 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      article_id: 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: api/v1/bookmarks
+    metadata:
+      custom: []
+      groupName: Bookmarks
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Remove multiple bookmarks by article ids.'
+      description: |-
+        Only the current user's bookmarks for the given articles are removed. Invalid or non-bookmarked ids are ignored (no error).
+        Response includes deleted_count.
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      article_ids:
+        custom: []
+        name: article_ids
+        description: 'List of article UUIDs to remove from bookmarks.'
+        required: true
+        example:
+          - 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+          - 8c3d7e1b-0a2b-3c4d-5e6f-7a8b9c0d1e2f
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      article_ids:
+        - 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+        - 8c3d7e1b-0a2b-3c4d-5e6f-7a8b9c0d1e2f
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/bookmarks/{articleId}'
+    metadata:
+      custom: []
+      groupName: Bookmarks
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Remove one bookmark by article id.'
+      description: 'Returns 204 on success. Returns 404 if the user has not bookmarked that article.'
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      articleId:
+        custom: []
+        name: articleId
+        description: 'UUID of the article to remove from bookmarks.'
+        required: true
+        example: 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      articleId: 9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

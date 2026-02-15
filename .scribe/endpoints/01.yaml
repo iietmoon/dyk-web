@@ -12,8 +12,8 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get the currently authenticated user.'
-      description: ''
+      title: 'Get the currently authenticated user (profile, subscription, settings).'
+      description: 'Settings are created with defaults if they do not exist yet.'
       authenticated: true
       deprecated: false
     headers:
@@ -30,11 +30,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 500
-        content: |-
-          {
-              "message": "Server Error"
-          }
+        status: 401
+        content: '{"code":401,"message":"Unauthorized"}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
@@ -127,6 +124,89 @@ endpoints:
         - 1
         - 2
         - 3
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/update-settings
+    metadata:
+      custom: []
+      groupName: Profile
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Update the authenticated user's settings (text size, appearance, notifications)."
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      text_size:
+        custom: []
+        name: text_size
+        description: 'optional One of: small, medium, large.'
+        required: false
+        example: medium
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      appearance_mode:
+        custom: []
+        name: appearance_mode
+        description: 'optional One of: light, dark, system.'
+        required: false
+        example: system
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      daily_reminder_notification:
+        custom: []
+        name: daily_reminder_notification
+        description: 'optional Daily reminder on/off.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      best_fact_notification:
+        custom: []
+        name: best_fact_notification
+        description: 'optional Best fact of the day on/off.'
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      text_size: medium
+      appearance_mode: system
+      daily_reminder_notification: true
+      best_fact_notification: true
     fileParameters: []
     responses: []
     responseFields: []

@@ -85,10 +85,13 @@
                 </li>
                                     <ul id="tocify-subheader-profile" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="profile-GETapi-v1-me">
-                                <a href="#profile-GETapi-v1-me">Get the currently authenticated user.</a>
+                                <a href="#profile-GETapi-v1-me">Get the currently authenticated user (profile, subscription, settings).</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-update-profile">
                                 <a href="#profile-POSTapi-v1-update-profile">Update the authenticated user's profile (name, birthdate, gender, topics).</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-update-settings">
+                                <a href="#profile-POSTapi-v1-update-settings">Update the authenticated user's settings (text size, appearance, notifications).</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="profile-POSTapi-v1-finish-registration">
                                 <a href="#profile-POSTapi-v1-finish-registration">Finish registration (name, birthdate, gender, topics). Use after first login when is_new_user was true.</a>
@@ -111,6 +114,35 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-articles" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="articles">
+                    <a href="#articles">Articles</a>
+                </li>
+                                    <ul id="tocify-subheader-articles" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="articles-GETapi-v1-articles">
+                                <a href="#articles-GETapi-v1-articles">List published articles with pagination (20 per page).</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-bookmarks" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="bookmarks">
+                    <a href="#bookmarks">Bookmarks</a>
+                </li>
+                                    <ul id="tocify-subheader-bookmarks" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="bookmarks-GETapi-v1-bookmarks">
+                                <a href="#bookmarks-GETapi-v1-bookmarks">List the current user's bookmarked articles with pagination.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="bookmarks-POSTapi-v1-bookmarks">
+                                <a href="#bookmarks-POSTapi-v1-bookmarks">Save (add) an article to the current user's bookmarks.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="bookmarks-DELETEapi-v1-bookmarks">
+                                <a href="#bookmarks-DELETEapi-v1-bookmarks">Remove multiple bookmarks by article ids.</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="bookmarks-DELETEapi-v1-bookmarks--articleId-">
+                                <a href="#bookmarks-DELETEapi-v1-bookmarks--articleId-">Remove one bookmark by article id.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -120,7 +152,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: February 14, 2026</li>
+        <li>Last updated: February 15, 2026</li>
     </ul>
 </div>
 
@@ -427,13 +459,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     
 
-                                <h2 id="profile-GETapi-v1-me">Get the currently authenticated user.</h2>
+                                <h2 id="profile-GETapi-v1-me">Get the currently authenticated user (profile, subscription, settings).</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
 </p>
 
-
+<p>Settings are created with defaults if they do not exist yet.</p>
 
 <span id="example-requests-GETapi-v1-me">
 <blockquote>Example request:</blockquote>
@@ -467,7 +499,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-me">
             <blockquote>
-            <p>Example response (500):</p>
+            <p>Example response (401):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -479,7 +511,8 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Server Error&quot;
+    &quot;code&quot;: 401,
+    &quot;message&quot;: &quot;Unauthorized&quot;
 }</code>
  </pre>
     </span>
@@ -764,6 +797,215 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Array of topic IDs.</p>
+        </div>
+        </form>
+
+                    <h2 id="profile-POSTapi-v1-update-settings">Update the authenticated user&#039;s settings (text size, appearance, notifications).</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-update-settings">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/update-settings" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"text_size\": \"medium\",
+    \"appearance_mode\": \"system\",
+    \"daily_reminder_notification\": true,
+    \"best_fact_notification\": true
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/update-settings"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "text_size": "medium",
+    "appearance_mode": "system",
+    "daily_reminder_notification": true,
+    "best_fact_notification": true
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-update-settings">
+</span>
+<span id="execution-results-POSTapi-v1-update-settings" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-update-settings"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-update-settings"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-update-settings" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-update-settings">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-update-settings" data-method="POST"
+      data-path="api/v1/update-settings"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-update-settings', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-update-settings"
+                    onclick="tryItOut('POSTapi-v1-update-settings');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-update-settings"
+                    onclick="cancelTryOut('POSTapi-v1-update-settings');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-update-settings"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/update-settings</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-update-settings"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-update-settings"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-update-settings"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>text_size</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="text_size"                data-endpoint="POSTapi-v1-update-settings"
+               value="medium"
+               data-component="body">
+    <br>
+<p>optional One of: small, medium, large. Example: <code>medium</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>appearance_mode</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="appearance_mode"                data-endpoint="POSTapi-v1-update-settings"
+               value="system"
+               data-component="body">
+    <br>
+<p>optional One of: light, dark, system. Example: <code>system</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>daily_reminder_notification</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-v1-update-settings" style="display: none">
+            <input type="radio" name="daily_reminder_notification"
+                   value="true"
+                   data-endpoint="POSTapi-v1-update-settings"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-v1-update-settings" style="display: none">
+            <input type="radio" name="daily_reminder_notification"
+                   value="false"
+                   data-endpoint="POSTapi-v1-update-settings"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Daily reminder on/off. Example: <code>true</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>best_fact_notification</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-v1-update-settings" style="display: none">
+            <input type="radio" name="best_fact_notification"
+                   value="true"
+                   data-endpoint="POSTapi-v1-update-settings"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-v1-update-settings" style="display: none">
+            <input type="radio" name="best_fact_notification"
+                   value="false"
+                   data-endpoint="POSTapi-v1-update-settings"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Best fact of the day on/off. Example: <code>true</code></p>
         </div>
         </form>
 
@@ -1282,7 +1524,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-payment-plans">
             <blockquote>
-            <p>Example response (500):</p>
+            <p>Example response (401):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -1294,7 +1536,8 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Server Error&quot;
+    &quot;code&quot;: 401,
+    &quot;message&quot;: &quot;Unauthorized&quot;
 }</code>
  </pre>
     </span>
@@ -1382,6 +1625,764 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="articles">Articles</h1>
+
+    
+
+                                <h2 id="articles-GETapi-v1-articles">List published articles with pagination (20 per page).</h2>
+
+<p>
+</p>
+
+<p>Users with an active subscription get all 20 articles unlocked.
+Users without a subscription get the first 3 unlocked and the rest locked (no body).
+Optional: send Bearer token to apply subscription check; otherwise treated as no subscription.</p>
+
+<span id="example-requests-GETapi-v1-articles">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/articles?page=1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/articles"
+);
+
+const params = {
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-articles">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;code&quot;: 401,
+    &quot;message&quot;: &quot;Unauthorized&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-articles" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-articles"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-articles"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-articles" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-articles">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-articles" data-method="GET"
+      data-path="api/v1/articles"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-articles', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-articles"
+                    onclick="tryItOut('GETapi-v1-articles');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-articles"
+                    onclick="cancelTryOut('GETapi-v1-articles');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-articles"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/articles</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-articles"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-articles"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-articles"
+               value="1"
+               data-component="query">
+    <br>
+<p>Page number for pagination. Example: <code>1</code></p>
+            </div>
+                </form>
+
+                <h1 id="bookmarks">Bookmarks</h1>
+
+    
+
+                                <h2 id="bookmarks-GETapi-v1-bookmarks">List the current user&#039;s bookmarked articles with pagination.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Each item includes the bookmark (id, created_at) and the article (id, title, slug, excerpt, image, published_at).</p>
+
+<span id="example-requests-GETapi-v1-bookmarks">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bookmarks?page=1" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bookmarks"
+);
+
+const params = {
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bookmarks">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;code&quot;: 401,
+    &quot;message&quot;: &quot;Unauthorized&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bookmarks" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bookmarks"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bookmarks"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bookmarks" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bookmarks">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-bookmarks" data-method="GET"
+      data-path="api/v1/bookmarks"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bookmarks', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bookmarks"
+                    onclick="tryItOut('GETapi-v1-bookmarks');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bookmarks"
+                    onclick="cancelTryOut('GETapi-v1-bookmarks');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bookmarks"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bookmarks</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-bookmarks"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-bookmarks"
+               value="1"
+               data-component="query">
+    <br>
+<p>Page number for pagination. Example: <code>1</code></p>
+            </div>
+                </form>
+
+                    <h2 id="bookmarks-POSTapi-v1-bookmarks">Save (add) an article to the current user&#039;s bookmarks.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Returns the created bookmark with a snippet of the article. Returns 409 if the article is already bookmarked.</p>
+
+<span id="example-requests-POSTapi-v1-bookmarks">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bookmarks" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"article_id\": \"9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bookmarks"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "article_id": "9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bookmarks">
+</span>
+<span id="execution-results-POSTapi-v1-bookmarks" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bookmarks"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bookmarks"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bookmarks" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bookmarks">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-bookmarks" data-method="POST"
+      data-path="api/v1/bookmarks"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bookmarks', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bookmarks"
+                    onclick="tryItOut('POSTapi-v1-bookmarks');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bookmarks"
+                    onclick="cancelTryOut('POSTapi-v1-bookmarks');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bookmarks"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bookmarks</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-bookmarks"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>article_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="article_id"                data-endpoint="POSTapi-v1-bookmarks"
+               value="9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a"
+               data-component="body">
+    <br>
+<p>UUID of the article to bookmark. Example: <code>9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a</code></p>
+        </div>
+        </form>
+
+                    <h2 id="bookmarks-DELETEapi-v1-bookmarks">Remove multiple bookmarks by article ids.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Only the current user's bookmarks for the given articles are removed. Invalid or non-bookmarked ids are ignored (no error).
+Response includes deleted_count.</p>
+
+<span id="example-requests-DELETEapi-v1-bookmarks">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/bookmarks" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"article_ids\": [
+        \"9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a\",
+        \"8c3d7e1b-0a2b-3c4d-5e6f-7a8b9c0d1e2f\"
+    ]
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bookmarks"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "article_ids": [
+        "9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a",
+        "8c3d7e1b-0a2b-3c4d-5e6f-7a8b9c0d1e2f"
+    ]
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-bookmarks">
+</span>
+<span id="execution-results-DELETEapi-v1-bookmarks" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-bookmarks"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-bookmarks"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-bookmarks" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-bookmarks">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-v1-bookmarks" data-method="DELETE"
+      data-path="api/v1/bookmarks"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-bookmarks', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-bookmarks"
+                    onclick="tryItOut('DELETEapi-v1-bookmarks');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-bookmarks"
+                    onclick="cancelTryOut('DELETEapi-v1-bookmarks');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-bookmarks"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/bookmarks</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-v1-bookmarks"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-v1-bookmarks"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>article_ids</code></b>&nbsp;&nbsp;
+<small>string[]</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="article_ids[0]"                data-endpoint="DELETEapi-v1-bookmarks"
+               data-component="body">
+        <input type="text" style="display: none"
+               name="article_ids[1]"                data-endpoint="DELETEapi-v1-bookmarks"
+               data-component="body">
+    <br>
+<p>List of article UUIDs to remove from bookmarks.</p>
+        </div>
+        </form>
+
+                    <h2 id="bookmarks-DELETEapi-v1-bookmarks--articleId-">Remove one bookmark by article id.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Returns 204 on success. Returns 404 if the user has not bookmarked that article.</p>
+
+<span id="example-requests-DELETEapi-v1-bookmarks--articleId-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/v1/bookmarks/9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bookmarks/9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-v1-bookmarks--articleId-">
+</span>
+<span id="execution-results-DELETEapi-v1-bookmarks--articleId-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-v1-bookmarks--articleId-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-v1-bookmarks--articleId-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-v1-bookmarks--articleId-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-v1-bookmarks--articleId-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-v1-bookmarks--articleId-" data-method="DELETE"
+      data-path="api/v1/bookmarks/{articleId}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-v1-bookmarks--articleId-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-v1-bookmarks--articleId-"
+                    onclick="tryItOut('DELETEapi-v1-bookmarks--articleId-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-v1-bookmarks--articleId-"
+                    onclick="cancelTryOut('DELETEapi-v1-bookmarks--articleId-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-v1-bookmarks--articleId-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/v1/bookmarks/{articleId}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="DELETEapi-v1-bookmarks--articleId-"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-v1-bookmarks--articleId-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-v1-bookmarks--articleId-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>articleId</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="articleId"                data-endpoint="DELETEapi-v1-bookmarks--articleId-"
+               value="9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a"
+               data-component="url">
+    <br>
+<p>UUID of the article to remove from bookmarks. Example: <code>9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a</code></p>
+            </div>
+                    </form>
 
             
 

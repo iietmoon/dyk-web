@@ -126,4 +126,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(TransactionToken::class);
     }
+
+    /**
+     * Get the user's article bookmarks.
+     *
+     * @return HasMany<ArticleBookmark, $this>
+     */
+    public function articleBookmarks(): HasMany
+    {
+        return $this->hasMany(ArticleBookmark::class);
+    }
+
+    /**
+     * Get the user's settings (text size, appearance, notifications).
+     *
+     * @return HasOne<UserSetting, $this>
+     */
+    public function settings(): HasOne
+    {
+        return $this->hasOne(UserSetting::class);
+    }
 }

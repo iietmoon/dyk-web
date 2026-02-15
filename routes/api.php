@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ApiAuthetication;
 use App\Http\Middleware\OptionalApiAuthentication;
+use App\Http\Controllers\Api\v1\ArticleBookmarkController;
 use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\AutheticationController;
 use App\Http\Controllers\Payments\PaymentController;
@@ -20,6 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::middleware(ApiAuthetication::class)->group(function () {
         Route::get('/me', [AutheticationController::class, 'me'])->name('api.v1.me');
         Route::post('/update-profile', [AutheticationController::class, 'updateProfile'])->name('api.v1.update-profile');
+        Route::post('/update-settings', [AutheticationController::class, 'updateSettings'])->name('api.v1.update-settings');
         Route::post('/finish-registration', [AutheticationController::class, 'finishRegistration'])->name('api.v1.finish-registration');
         Route::post('/logout', [AutheticationController::class, 'logout'])->name('api.v1.logout');
 
@@ -27,5 +29,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/payment/create-link', [PaymentController::class, 'createPaymentLink'])->name('api.v1.payment-link.create');
         Route::get('/payment/plans', [PaymentController::class, 'getPlans'])->name('api.v1.payment-plans.get');
         Route::get('/articles', [ArticleController::class, 'index'])->name('api.v1.articles.index');
+
+        // Article bookmarks (list / save / remove)
+        Route::get('/bookmarks', [ArticleBookmarkController::class, 'index'])->name('api.v1.bookmarks.index');
+        Route::post('/bookmarks', [ArticleBookmarkController::class, 'store'])->name('api.v1.bookmarks.store');
+        Route::delete('/bookmarks', [ArticleBookmarkController::class, 'destroyMultiple'])->name('api.v1.bookmarks.destroy-multiple');
+        Route::delete('/bookmarks/{articleId}', [ArticleBookmarkController::class, 'destroy'])->name('api.v1.bookmarks.destroy');
     });
 });

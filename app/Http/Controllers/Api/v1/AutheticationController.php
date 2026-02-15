@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Enums\AppearanceMode;
 use App\Enums\HttpStatusCode;
+use App\Enums\TextSize;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserOtp;
+use App\Models\UserSetting;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class AutheticationController extends Controller
 {
@@ -18,13 +22,25 @@ class AutheticationController extends Controller
     ) {}
 
     /**
-     * Get the currently authenticated user.
+     * Get the currently authenticated user (profile, subscription, settings).
+     * Settings are created with defaults if they do not exist yet.
      *
      * @group Profile
      */
     public function me(Request $request)
     {
-        $user = $request->user()->load('subscription.plan');
+        $user = $request->user();
+        $user->load('subscription.plan');
+
+        $user->setRelation('settings', $user->settings()->firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'text_size' => TextSize::Medium,
+                'appearance_mode' => AppearanceMode::System,
+                'daily_reminder_notification' => true,
+                'best_fact_notification' => true,
+            ]
+        ));
 
         return HttpStatusCode::OK->toResponse([
             'data' => $user,
@@ -68,6 +84,59 @@ class AutheticationController extends Controller
             'message' => 'Profile updated successfully.',
             'data' => [
                 'user' => $user,
+            ],
+        ]);
+    }
+
+    /**
+     * Update the authenticated user's settings (text size, appearance, notifications).
+     *
+     * @group Profile
+     * @bodyParam text_size string optional One of: small, medium, large. Example: medium
+     * @bodyParam appearance_mode string optional One of: light, dark, system. Example: system
+     * @bodyParam daily_reminder_notification boolean optional Daily reminder on/off. Example: true
+     * @bodyParam best_fact_notification boolean optional Best fact of the day on/off. Example: true
+     */
+    public function updateSettings(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'text_size' => ['sometimes', 'string', Rule::in(TextSize::values())],
+            'appearance_mode' => ['sometimes', 'string', Rule::in(AppearanceMode::values())],
+            'daily_reminder_notification' => ['sometimes', 'boolean'],
+            'best_fact_notification' => ['sometimes', 'boolean'],
+        ], [
+            'text_size.in' => 'text_size must be one of: small, medium, large.',
+            'appearance_mode.in' => 'appearance_mode must be one of: light, dark, system.',
+        ]);
+
+        if ($validator->fails()) {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        $user = $request->user();
+        $settings = $user->settings()->firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'text_size' => TextSize::Medium,
+                'appearance_mode' => AppearanceMode::System,
+                'daily_reminder_notification' => true,
+                'best_fact_notification' => true,
+            ]
+        );
+
+        $settings->update($request->only([
+            'text_size',
+            'appearance_mode',
+            'daily_reminder_notification',
+            'best_fact_notification',
+        ]));
+
+        return HttpStatusCode::OK->toResponse([
+            'message' => 'Settings updated successfully.',
+            'data' => [
+                'settings' => $settings->fresh(),
             ],
         ]);
     }
@@ -148,12 +217,21 @@ class AutheticationController extends Controller
                 'email' => $request->input('email'),
                 'email_verified_at' => now(),
             ]);
+            UserSetting::create([
+                'user_id' => $user->id,
+                'text_size' => TextSize::Medium,
+                'appearance_mode' => AppearanceMode::System,
+                'daily_reminder_notification' => true,
+                'best_fact_notification' => true,
+            ]);
             $is_new_user = true;
         }
 
         $user->update([
             'email_verified_at' => now(),
         ]);
+
+        $user->load('settings');
 
         $expiresAt = now()->addMinutes(config('api.token_expiry_minutes', 60));
         $newAccessToken = $user->createToken('auth_token', ['*'], $expiresAt);

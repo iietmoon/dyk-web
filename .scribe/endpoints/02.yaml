@@ -77,11 +77,8 @@ endpoints:
     responses:
       -
         custom: []
-        status: 500
-        content: |-
-          {
-              "message": "Server Error"
-          }
+        status: 401
+        content: '{"code":401,"message":"Unauthorized"}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json

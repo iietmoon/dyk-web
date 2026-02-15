@@ -182,6 +182,8 @@ return [
             'Authentication',
             'Profile',
             'Payments',
+            'Articles',
+            'Bookmarks',
         ],
     ],
 

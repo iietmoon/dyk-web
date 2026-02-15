@@ -1,131 +1,430 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html dir="ltr" lang="en">
-
-<head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-    <meta name="x-apple-disable-message-reformatting" />
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>@yield('title', config('app.name'))</title>
-</head>
+    <style>
+      /*All the styling goes here*/
+      img {
+        border: none;
+        -ms-interpolation-mode: bicubic;
+        max-width: 100%;
+      }
 
-<body style="background-color:rgb(255,255,255)">
-    <table border="0" width="100%" cellpadding="0" cellspacing="0" role="presentation" align="center">
-        <tbody>
-            <tr>
-                <td
-                    style='background-color:rgb(255,255,255);font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'>
-                    <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
-                        role="presentation"
-                        style="max-width:600px;margin-right:auto;margin-left:auto;width:100%;padding:0rem">
-                        <tbody>
-                            <tr style="width:100%">
-                                <td>
-                                    {{-- Header / Brand --}}
-                                    <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
-                                        role="presentation" style="padding:2rem 2rem 0;text-align:center">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <p
-                                                        style="font-size:1.5rem;line-height:1.3333333333333333;margin-right:0rem;margin-left:0rem;padding:0rem;text-align:center;font-weight:400">
-                                                        <span style="font-weight:700;letter-spacing:-0.05em">
-                                                            <svg style="width: 220px; height: 44px;" width="650"
-                                                                height="72" viewBox="0 0 650 72" fill="none"
-                                                                xmlns="http://www.w3.org/2000/svg">
-                                                                <path
-                                                                    d="M627.495 47.6L626.595 30.6C629.728 29.4666 632.261 27.6999 634.195 25.2999C636.128 22.8999 637.095 19.9999 637.095 16.5999C637.095 12.5999 636.361 9.46662 634.895 7.19995C633.428 4.86662 631.595 3.69995 629.395 3.69995C627.461 3.69995 625.961 4.36662 624.895 5.69995C623.895 7.03328 623.095 8.83328 622.495 11.0999L621.195 15.8999C620.595 18.1666 619.561 19.7999 618.095 20.7999C616.695 21.7333 615.195 22.1 613.595 21.9C612.061 21.7 610.728 21 609.595 19.7999C608.461 18.5333 607.895 16.8333 607.895 14.7C607.895 12.0333 608.861 9.73328 610.794 7.79995C612.794 5.86662 615.328 4.36662 618.395 3.29995C621.461 2.23328 624.661 1.69995 627.995 1.69995C634.728 1.69995 639.994 3.13328 643.794 5.99995C647.661 8.86662 649.595 13.1666 649.595 18.9C649.595 22.8333 648.628 26.1666 646.695 28.8999C644.761 31.6333 642.261 33.8666 639.195 35.6C636.195 37.2666 633.061 38.5666 629.794 39.4999L629.294 47.6H627.495ZM627.595 71.6C625.195 71.6 623.128 70.7666 621.395 69.1C619.728 67.4333 618.895 65.4 618.895 63C618.895 60.6666 619.728 58.6666 621.395 57C623.128 55.2666 625.195 54.4 627.595 54.4C630.061 54.4 632.095 55.2666 633.695 57C635.361 58.6666 636.195 60.6666 636.195 63C636.195 65.4 635.361 67.4333 633.695 69.1C632.095 70.7666 630.061 71.6 627.595 71.6Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M548.816 70.4L533.416 28.1C532.682 25.9666 531.216 24.4666 529.016 23.6L527.316 23V22H551.816V23L550.316 23.4C547.716 24.2 546.849 25.8 547.716 28.2L557.016 56.5L565.316 34.5L563.416 28.8C562.949 27.3333 562.449 26.2333 561.916 25.5C561.449 24.7 560.816 24.1333 560.016 23.8L558.316 23V22H579.016V23L577.616 23.6C576.616 24 576.016 24.5333 575.816 25.2C575.616 25.8666 575.749 26.8666 576.216 28.2L585.416 56L594.916 28.4C595.849 25.8666 595.349 24.2666 593.416 23.6L591.216 23V22H603.216V23L600.816 23.7C599.682 24.0333 598.849 24.5666 598.316 25.3C597.849 25.9666 597.416 26.9 597.016 28.1L582.616 70.4H577.516L566.416 37.7L554.616 70.4H548.816Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M499.709 71.6C494.643 71.6 490.243 70.5666 486.509 68.5C482.776 66.3666 479.876 63.3666 477.809 59.5C475.809 55.6333 474.809 51.1 474.809 45.9C474.809 40.7 475.876 36.2 478.009 32.4C480.209 28.6 483.176 25.6666 486.909 23.6C490.709 21.5333 494.976 20.5 499.709 20.5C504.443 20.5 508.676 21.5333 512.409 23.6C516.143 25.6 519.076 28.5 521.209 32.3C523.409 36.1 524.509 40.6333 524.509 45.9C524.509 51.1666 523.476 55.7333 521.409 59.6C519.409 63.4 516.543 66.3666 512.809 68.5C509.143 70.5666 504.776 71.6 499.709 71.6ZM499.709 69.6C502.043 69.6 503.909 68.9333 505.309 67.6C506.709 66.2666 507.709 63.9 508.309 60.5C508.976 57.1 509.309 52.3 509.309 46.1C509.309 39.8333 508.976 35 508.309 31.6C507.709 28.2 506.709 25.8333 505.309 24.5C503.909 23.1666 502.043 22.5 499.709 22.5C497.376 22.5 495.476 23.1666 494.009 24.5C492.609 25.8333 491.576 28.2 490.909 31.6C490.309 35 490.009 39.8333 490.009 46.1C490.009 52.3 490.309 57.1 490.909 60.5C491.576 63.9 492.609 66.2666 494.009 67.6C495.476 68.9333 497.376 69.6 499.709 69.6Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M416.597 70.1V69.1L417.997 68.7C420.33 68.0333 421.497 66.4 421.497 63.8V32.5C421.497 31.0333 421.264 29.9666 420.797 29.3C420.33 28.5666 419.43 28.0666 418.097 27.8L416.597 27.4V26.4L433.697 20.6L434.697 21.6L435.497 27.6C437.83 25.5333 440.464 23.8333 443.397 22.5C446.33 21.1666 449.23 20.5 452.097 20.5C456.497 20.5 459.864 21.7 462.197 24.1C464.597 26.5 465.797 30.1666 465.797 35.1V63.9C465.797 66.5 467.064 68.1333 469.597 68.8L470.497 69.1V70.1H446.897V69.1L448.197 68.7C450.53 67.9666 451.697 66.3333 451.697 63.8V31.9C451.697 27.6333 449.564 25.5 445.297 25.5C442.364 25.5 439.164 26.9666 435.697 29.9V63.9C435.697 66.5 436.864 68.1333 439.197 68.8L440.097 69.1V70.1H416.597Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M351.367 70.1V69.1L353.467 68.3C354.8 67.8333 355.667 67.2 356.067 66.4C356.467 65.6 356.667 64.5666 356.667 63.3V11C356.667 9.66665 356.467 8.59998 356.067 7.79998C355.667 6.99997 354.8 6.36664 353.467 5.89998L351.367 5.09998V4.09998H376.267V5.09998L374.067 5.99998C372.934 6.39998 372.167 6.99997 371.767 7.79998C371.367 8.59998 371.167 9.69998 371.167 11.1V63.4C371.167 64.7333 371.367 65.7666 371.767 66.5C372.234 67.2333 373.101 67.8333 374.367 68.3L376.267 69.1V70.1H351.367ZM388.267 70.1V69.1L389.567 68.7C390.901 68.3 391.601 67.6333 391.667 66.7C391.734 65.7666 391.334 64.7 390.467 63.5L371.267 36.2L396.567 10.4C397.501 9.46665 398.001 8.56665 398.067 7.69998C398.201 6.83331 397.567 6.16664 396.167 5.69997L394.467 5.09998V4.09998H409.067V5.09998L406.467 5.89998C405 6.36664 403.834 6.93331 402.967 7.59998C402.101 8.26665 401.1 9.16665 399.967 10.3L382.067 28.6L405.567 62.9C406.567 64.3666 407.501 65.5666 408.367 66.5C409.301 67.4333 410.601 68.1666 412.267 68.7L413.667 69.1V70.1H388.267Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M290.752 71.6C288.152 71.6 285.752 71.1 283.552 70.1C281.418 69.1 279.718 67.5 278.452 65.3C277.252 63.0333 276.685 60.0666 276.752 56.4L277.052 30.7C277.052 29.1666 276.785 28.0666 276.252 27.4C275.718 26.7333 274.885 26.2666 273.752 26L272.552 25.6V24.6L290.452 21.1L291.452 22.1L290.952 36.3V60.4C290.952 62.5333 291.552 64.1 292.752 65.1C294.018 66.1 295.585 66.6 297.452 66.6C299.318 66.6 300.985 66.3333 302.452 65.8C303.918 65.2666 305.385 64.4666 306.852 63.4L307.252 30.8C307.252 29.2666 307.018 28.2 306.552 27.6C306.085 26.9333 305.218 26.4666 303.952 26.2L302.952 25.9V24.9L320.452 21.1L321.452 22.1L321.152 36.3V63.4C321.152 64.8666 321.352 66 321.752 66.8C322.152 67.6 323.018 68.2666 324.352 68.8L325.352 69.1V70.1L307.852 71.1L306.952 65.2C304.752 67 302.352 68.5333 299.752 69.8C297.218 71 294.218 71.6 290.752 71.6Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M243.85 71.6C238.783 71.6 234.383 70.5666 230.65 68.5C226.917 66.3666 224.017 63.3666 221.95 59.5C219.95 55.6333 218.95 51.1 218.95 45.9C218.95 40.7 220.017 36.2 222.15 32.4C224.35 28.6 227.317 25.6666 231.05 23.6C234.85 21.5333 239.117 20.5 243.85 20.5C248.583 20.5 252.817 21.5333 256.55 23.6C260.283 25.6 263.217 28.5 265.35 32.3C267.55 36.1 268.65 40.6333 268.65 45.9C268.65 51.1666 267.617 55.7333 265.55 59.6C263.55 63.4 260.683 66.3666 256.95 68.5C253.283 70.5666 248.917 71.6 243.85 71.6ZM243.85 69.6C246.183 69.6 248.05 68.9333 249.45 67.6C250.85 66.2666 251.85 63.9 252.45 60.5C253.117 57.1 253.45 52.3 253.45 46.1C253.45 39.8333 253.117 35 252.45 31.6C251.85 28.2 250.85 25.8333 249.45 24.5C248.05 23.1666 246.183 22.5 243.85 22.5C241.517 22.5 239.617 23.1666 238.15 24.5C236.75 25.8333 235.717 28.2 235.05 31.6C234.45 35 234.15 39.8333 234.15 46.1C234.15 52.3 234.45 57.1 235.05 60.5C235.717 63.9 236.75 66.2666 238.15 67.6C239.617 68.9333 241.517 69.6 243.85 69.6Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M183.929 70.1V69.1L186.929 68.3C189.262 67.6333 190.429 65.9666 190.429 63.3V44.3L173.929 10.7C173.329 9.36664 172.762 8.36664 172.229 7.69998C171.762 7.03331 171.029 6.46665 170.029 5.99998L168.229 5.09998V4.09998H195.029V5.09998L193.229 5.79998C191.762 6.39998 190.962 7.23331 190.829 8.29998C190.696 9.29998 190.962 10.5666 191.629 12.1L203.429 38.3L216.629 11.1C217.162 10.0333 217.362 8.93331 217.229 7.79998C217.162 6.66664 216.462 5.93331 215.129 5.59998L213.729 5.09998V4.09998H225.729V5.09998L223.829 5.79998C222.562 6.26664 221.629 6.93331 221.029 7.79998C220.429 8.59998 219.829 9.63331 219.229 10.9L205.529 39.7V63.3C205.529 64.6333 205.762 65.7333 206.229 66.6C206.762 67.4 207.662 67.9666 208.929 68.3L212.029 69.1V70.1H183.929Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M113.871 71.6C109.938 71.6 106.404 70.7333 103.271 69C100.138 67.2 97.6377 64.4667 95.7711 60.8C93.9711 57.0667 93.0711 52.3 93.0711 46.5C93.0711 40.6333 94.1044 35.8 96.1711 32C98.2377 28.1333 100.971 25.2667 104.371 23.4C107.771 21.4667 111.471 20.5 115.471 20.5C117.804 20.5 120.038 20.7333 122.171 21.2C124.304 21.6667 126.204 22.3667 127.871 23.3V10.3C127.871 8.9 127.638 7.86667 127.171 7.2C126.771 6.53333 125.871 6.06667 124.471 5.8L122.571 5.4V4.4L140.771 0L141.871 0.899998L141.471 14.9V63.8C141.471 65.1333 141.704 66.2333 142.171 67.1C142.638 67.9 143.504 68.4667 144.771 68.8L145.671 69.1V70.1L128.571 71.2L127.671 67.6C125.871 68.8 123.804 69.7667 121.471 70.5C119.204 71.2333 116.671 71.6 113.871 71.6ZM119.671 67.9C122.471 67.9 125.038 67.0667 127.371 65.4V25.7C124.904 24.1 122.371 23.3 119.771 23.3C116.571 23.3 113.838 25.1667 111.571 28.9C109.304 32.5667 108.171 38.3667 108.171 46.3C108.171 54.2333 109.238 59.8333 111.371 63.1C113.504 66.3 116.271 67.9 119.671 67.9Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M76.6438 15.3C74.3771 15.3 72.4438 14.6 70.8438 13.2C69.3104 11.7333 68.5438 9.89998 68.5438 7.69998C68.5438 5.43331 69.3104 3.59998 70.8438 2.19998C72.4438 0.799976 74.3771 0.0999756 76.6438 0.0999756C78.9104 0.0999756 80.8104 0.799976 82.3438 2.19998C83.8771 3.59998 84.6438 5.43331 84.6438 7.69998C84.6438 9.89998 83.8771 11.7333 82.3438 13.2C80.8104 14.6 78.9104 15.3 76.6438 15.3ZM64.8438 70.1V69.1L66.2438 68.7C67.5771 68.3 68.4771 67.7 68.9438 66.9C69.4771 66.1 69.7438 65.0333 69.7438 63.7V32.4C69.7438 31 69.4771 29.9666 68.9438 29.3C68.4771 28.5666 67.5771 28.0666 66.2438 27.8L64.8438 27.5V26.5L83.1438 20.6L84.1438 21.6L83.8438 35.8V63.8C83.8438 65.1333 84.0771 66.2 84.5438 67C85.0771 67.8 85.9771 68.4 87.2438 68.8L88.2438 69.1V70.1H64.8438Z"
-                                                                    fill="#1E1E1E" />
-                                                                <path
-                                                                    d="M0 70.1V69.1L2.1 68.3C4.23333 67.4333 5.3 65.7333 5.3 63.2V11C5.3 8.33331 4.23333 6.63331 2.1 5.89998L0 5.09998V4.09998H26.4C33.4667 4.09998 39.5333 5.43331 44.6 8.09998C49.7333 10.7 53.6667 14.4666 56.4 19.4C59.2 24.2666 60.6 30.1333 60.6 37C60.6 44 59.1 49.9666 56.1 54.9C53.1 59.8333 48.9 63.6 43.5 66.2C38.1667 68.8 31.8667 70.1 24.6 70.1H0ZM20.3 68.1H24.6C29.4 68.1 33.2667 67.1666 36.2 65.3C39.1333 63.3666 41.2667 60.1666 42.6 55.7C44 51.1666 44.7 44.9666 44.7 37.1C44.7 29.2333 44 23.0666 42.6 18.6C41.2667 14.0666 39.1667 10.8666 36.3 8.99998C33.4333 7.06664 29.6667 6.09998 25 6.09998H20.3V68.1Z"
-                                                                    fill="#1E1E1E" />
-                                                            </svg>
+      body {
+        background-color: #f2f2f7;
+        font-family: sans-serif;
+        -webkit-font-smoothing: antialiased;
+        font-size: 15px;
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
 
-                                                        </span>
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+      table {
+        border-collapse: separate;
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+        width: 100%;
+      }
 
-                                    <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
-                                        role="presentation"
-                                        style="margin-bottom:1.5rem;margin-top:1.5rem;border-radius:1rem;background-color:rgb(0,0,0,2%);background-image:radial-gradient(circle at bottom right,rgb(0, 0, 0, 10%) 0%,transparent 60%);padding:2rem;text-align:center">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    {{-- Main email content --}}
-                                                    @yield('content')
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+      table td {
+        font-family: sans-serif;
+        font-size: 15px;
+        vertical-align: top;
+      }
 
+      /* -------------------------------------
+          BODY & CONTAINER
+      ------------------------------------- */
+      .body {
+        background-color: #f2f2f7;
+        width: 100%;
+      }
 
-                                    {{-- Footer: copyright, tagline, policies --}}
-                                    <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
-                                        role="presentation"
-                                        style="margin-top:2rem;padding:2rem 2rem 1.5rem;text-align:center;border-top:1px solid rgb(234,234,234)">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <p
-                                                        style="font-size:0.875rem;line-height:1.5;color:rgb(107,114,128);margin:0 0 0.5rem 0">
-                                                        Did You Know? — Most People Don’t Know most of things
-                                                    </p>
-                                                    <p
-                                                        style="font-size:0.75rem;line-height:1.5;color:rgb(156,163,175);margin:0 0 1rem 0">
-                                                        &copy; {{ date('Y') }} {{ config('app.name') }}. All rights
-                                                        reserved.
-                                                    </p>
-                                                    <p
-                                                        style="font-size:0.75rem;line-height:1.6;color:rgb(107,114,128);margin:0">
-                                                        <a href="{{ route('website.privacy-policy') }}"
-                                                            style="color:rgb(59,130,246);text-decoration:none">Privacy
-                                                            Policy</a>
-                                                        &nbsp;&#183;&nbsp;
-                                                        <a href="{{ route('website.terms-of-service') }}"
-                                                            style="color:rgb(59,130,246);text-decoration:none">Terms of
-                                                            Service</a>
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+      /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+      .container {
+        display: block;
+        margin: 0 auto !important;
+        /* makes it centered */
+        max-width: 580px;
+        padding: 10px;
+        width: 580px;
+      }
+
+      /* This should also be a block element, so that it will fill 100% of the .container */
+      .content {
+        box-sizing: border-box;
+        display: block;
+        margin: 0 auto;
+        max-width: 580px;
+        padding: 10px;
+      }
+
+      /* -------------------------------------
+          HEADER, FOOTER, MAIN
+      ------------------------------------- */
+      .main {
+        background: #ffffff;
+        border-radius: 3px;
+        width: 100%;
+      }
+
+      .wrapper {
+        box-sizing: border-box;
+        padding: 20px;
+      }
+
+      .content-block {
+        padding-bottom: 10px;
+        padding-top: 10px;
+      }
+
+      .footer {
+        clear: both;
+        margin-top: 10px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .footer td,
+      .footer p,
+      .footer span,
+      .footer a {
+        color: #8e8e93;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      /* -------------------------------------
+          TYPOGRAPHY
+      ------------------------------------- */
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: #1c1c1e;
+        font-family: sans-serif;
+        font-weight: 400;
+        line-height: 1.5;
+        margin: 0;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        font-size: 35px;
+        font-weight: 300;
+        text-align: center;
+        text-transform: capitalize;
+      }
+
+      p,
+      ul,
+      ol {
+        color: #1c1c1e;
+        font-family: sans-serif;
+        font-size: 15px;
+        font-weight: normal;
+        margin: 0;
+        margin-bottom: 15px;
+      }
+
+      p li,
+      ul li,
+      ol li {
+        list-style-position: inside;
+        margin-left: 5px;
+      }
+
+      a {
+        color: #000000;
+        text-decoration: underline;
+      }
+
+      /* -------------------------------------
+          BUTTONS
+      ------------------------------------- */
+      .btn {
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      .btn > tbody > tr > td {
+        padding-bottom: 15px;
+      }
+
+      .btn table {
+        width: auto;
+      }
+
+      .btn table td {
+        background-color: #ffffff;
+        border-radius: 5px;
+        text-align: center;
+      }
+
+      .btn a {
+        background-color: #ffffff;
+        border: solid 1px #000000;
+        border-radius: 5px;
+        box-sizing: border-box;
+        color: #000000;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 0;
+        padding: 12px 25px;
+        text-decoration: none;
+        text-transform: capitalize;
+      }
+
+      .btn-primary table td {
+        background-color: #000000;
+      }
+
+      .btn-primary a {
+        background-color: #000000;
+        border-color: #000000;
+        color: #ffffff;
+      }
+
+      /* -------------------------------------
+          OTHER STYLES THAT MIGHT BE USEFUL
+      ------------------------------------- */
+      .last {
+        margin-bottom: 0;
+      }
+
+      .first {
+        margin-top: 0;
+      }
+
+      .align-center {
+        text-align: center;
+      }
+
+      .align-right {
+        text-align: right;
+      }
+
+      .align-left {
+        text-align: left;
+      }
+
+      .clear {
+        clear: both;
+      }
+
+      .mt0 {
+        margin-top: 0;
+      }
+
+      .mb0 {
+        margin-bottom: 0;
+      }
+
+      .preheader {
+        color: transparent;
+        display: none;
+        height: 0;
+        max-height: 0;
+        max-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        mso-hide: all;
+        visibility: hidden;
+        width: 0;
+      }
+
+      .powered-by a {
+        text-decoration: none;
+      }
+
+      hr {
+        border: 0;
+        border-bottom: 1px solid #f2f2f7;
+        margin: 20px 0;
+      }
+
+      /* -------------------------------------
+          RESPONSIVE AND MOBILE FRIENDLY STYLES
+      ------------------------------------- */
+      @media only screen and (max-width: 620px) {
+        table[class="body"] h1 {
+          font-size: 28px !important;
+          margin-bottom: 10px !important;
+        }
+
+        table[class="body"] p,
+        table[class="body"] ul,
+        table[class="body"] ol,
+        table[class="body"] td,
+        table[class="body"] span,
+        table[class="body"] a {
+          font-size: 16px !important;
+        }
+
+        table[class="body"] .wrapper,
+        table[class="body"] .article {
+          padding: 20px !important;
+        }
+
+        table[class="body"] .content {
+          padding: 0 !important;
+        }
+
+        table[class="body"] .container {
+          padding: 0 !important;
+          width: 100% !important;
+        }
+
+        table[class="body"] .main {
+          border-left-width: 0 !important;
+          border-radius: 0 !important;
+          border-right-width: 0 !important;
+        }
+
+        table[class="body"] .btn table {
+          width: 100% !important;
+        }
+
+        table[class="body"] .btn a {
+          width: 100% !important;
+        }
+
+        table[class="body"] .img-responsive {
+          height: auto !important;
+          max-width: 100% !important;
+          width: auto !important;
+        }
+      }
+
+      /* -------------------------------------
+          PRESERVE THESE STYLES IN THE HEAD
+      ------------------------------------- */
+      @media all {
+        .ExternalClass {
+          width: 100%;
+        }
+
+        .ExternalClass,
+        .ExternalClass p,
+        .ExternalClass span,
+        .ExternalClass font,
+        .ExternalClass td,
+        .ExternalClass div {
+          line-height: 100%;
+        }
+
+        .apple-link a {
+          color: inherit !important;
+          font-family: inherit !important;
+          font-size: inherit !important;
+          font-weight: inherit !important;
+          line-height: inherit !important;
+          text-decoration: none !important;
+        }
+
+        .btn-primary table td:hover {
+          background-color: #8e8e93 !important;
+        }
+
+        .btn-primary a:hover {
+          background-color: #8e8e93 !important;
+          border-color: #8e8e93 !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="">
+    <span class="preheader"></span>
+    <table
+      role="presentation"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      class="body"
+    >
+      <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+          <div class="content">
+            <div class="footer">
+                <table
+                  role="header"
+                  border="0"
+                  cellpadding="0"
+                  cellspacing="0"
+                >
+                  <tr>
+                    <td style="margin-bottom: 55px" class="content-block">
+                       <img src="{{url('/brand/logo-dark.png')}}" width="175px" style="margin-bottom: 20px;" />
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            <!-- START CENTERED WHITE CONTAINER -->
+            <table role="presentation" class="main">
+              <!-- START MAIN CONTENT AREA -->
+              <tr>
+                <td class="wrapper">
+                  <table
+                    role="presentation"
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                  >
+                    <tr>
+                      <td>
+                        @yield('content')
+                      </td>
+                    </tr>
+                  </table>
                 </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+              </tr>
 
+              <!-- END MAIN CONTENT AREA -->
+            </table>
+            <!-- END CENTERED WHITE CONTAINER -->
+
+            <!-- START FOOTER -->
+            <div class="footer">
+              <table
+                role="presentation"
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+              >
+                <tr>
+                  <td class="content-block">
+                    <p style="font-size:12px; color:#888888;">
+                        This is an automatic email, please do not reply.<br>
+                        If you have any questions, please contact us at <a href="mailto:hi@dyk.world" style="color:#000000;">hi@dyk.world</a>.<br>
+                        <br>
+                        Kind regards,<br>
+                        Did You Know? We love you ❤️<br>
+                        <a href="{{url('/')}}" style="color:#000000;">www.dyk.world</a><br>
+                      </p>
+                  </td>
+                </tr>
+                <hr style="border:none; border-top:1px solid #e0e0e0; margin:20px 0;">
+                <tr>
+                  <td class="content-block powered-by">
+                    © 2026 Otha&Co. All rights reserved.
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <!-- END FOOTER -->
+          </div>
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </body>
 </html>

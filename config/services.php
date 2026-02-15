@@ -43,4 +43,14 @@ return [
         'success_deep_link_scheme' => env('APP_DEEP_LINK_SCHEME', ''), // e.g. "didyouknow" → didyouknow://payment/success?transaction_id=...
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Agent / n8n API
+    |--------------------------------------------------------------------------
+    | Bearer token for agent automation (e.g. n8n). No database; validated against this value.
+    */
+    'agent' => [
+        'access_token' => env('AGENT_ACCESS_TOKEN'),
+    ],
+
 ];

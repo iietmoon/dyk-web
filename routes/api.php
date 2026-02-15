@@ -3,11 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ApiAuthetication;
+use App\Http\Middleware\AgentBearerToken;
 use App\Http\Middleware\OptionalApiAuthentication;
 use App\Http\Controllers\Api\v1\ArticleBookmarkController;
 use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\AutheticationController;
 use App\Http\Controllers\Api\v1\ExpoPushTokenController;
+use App\Http\Controllers\Agents\N8nController;
 use App\Http\Controllers\Payments\PaymentController;
 /*
 |--------------------------------------------------------------------------
@@ -40,4 +42,13 @@ Route::prefix('v1')->group(function () {
         // Expo push token (for sending notifications to mobile app)
         Route::post('/expo-push-token', [ExpoPushTokenController::class, 'store'])->name('api.v1.expo-push-token.store');
     });
+});
+
+/*
+|--------------------------------------------------------------------------
+| API Agent (e.g. n8n) – Bearer token from .env, no DB
+|--------------------------------------------------------------------------
+*/
+Route::prefix('agent')->middleware(AgentBearerToken::class)->group(function () {
+    Route::get('/articles', [N8nController::class, 'getAllArticles'])->name('api.agent.articles');
 });

@@ -143,6 +143,16 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-notifications" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="notifications">
+                    <a href="#notifications">Notifications</a>
+                </li>
+                                    <ul id="tocify-subheader-notifications" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="notifications-POSTapi-v1-expo-push-token">
+                                <a href="#notifications-POSTapi-v1-expo-push-token">Register (or update) the current device's Expo push token so the server can send notifications.</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -2383,6 +2393,185 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>UUID of the article to remove from bookmarks. Example: <code>9d4e8f2a-1b3c-4d5e-6f7a-8b9c0d1e2f3a</code></p>
             </div>
                     </form>
+
+                <h1 id="notifications">Notifications</h1>
+
+    
+
+                                <h2 id="notifications-POSTapi-v1-expo-push-token">Register (or update) the current device&#039;s Expo push token so the server can send notifications.</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTapi-v1-expo-push-token">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/expo-push-token" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"token\": \"ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]\",
+    \"platform\": \"ios\",
+    \"device_name\": \"iPhone 15\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/expo-push-token"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "token": "ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]",
+    "platform": "ios",
+    "device_name": "iPhone 15"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-expo-push-token">
+</span>
+<span id="execution-results-POSTapi-v1-expo-push-token" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-expo-push-token"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-expo-push-token"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-expo-push-token" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-expo-push-token">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-expo-push-token" data-method="POST"
+      data-path="api/v1/expo-push-token"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-expo-push-token', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-expo-push-token"
+                    onclick="tryItOut('POSTapi-v1-expo-push-token');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-expo-push-token"
+                    onclick="cancelTryOut('POSTapi-v1-expo-push-token');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-expo-push-token"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/expo-push-token</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="POSTapi-v1-expo-push-token"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-expo-push-token"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-expo-push-token"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>token</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="token"                data-endpoint="POSTapi-v1-expo-push-token"
+               value="ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]"
+               data-component="body">
+    <br>
+<p>Expo push token (ExponentPushToken[xxx]). Example: <code>ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>platform</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="platform"                data-endpoint="POSTapi-v1-expo-push-token"
+               value="ios"
+               data-component="body">
+    <br>
+<p>optional ios or android. Example: <code>ios</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>device_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="device_name"                data-endpoint="POSTapi-v1-expo-push-token"
+               value="iPhone 15"
+               data-component="body">
+    <br>
+<p>optional Device name for display. Example: <code>iPhone 15</code></p>
+        </div>
+        </form>
 
             
 

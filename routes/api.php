@@ -7,6 +7,7 @@ use App\Http\Middleware\OptionalApiAuthentication;
 use App\Http\Controllers\Api\v1\ArticleBookmarkController;
 use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\AutheticationController;
+use App\Http\Controllers\Api\v1\ExpoPushTokenController;
 use App\Http\Controllers\Payments\PaymentController;
 /*
 |--------------------------------------------------------------------------
@@ -35,5 +36,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/bookmarks', [ArticleBookmarkController::class, 'store'])->name('api.v1.bookmarks.store');
         Route::delete('/bookmarks', [ArticleBookmarkController::class, 'destroyMultiple'])->name('api.v1.bookmarks.destroy-multiple');
         Route::delete('/bookmarks/{articleId}', [ArticleBookmarkController::class, 'destroy'])->name('api.v1.bookmarks.destroy');
+
+        // Expo push token (for sending notifications to mobile app)
+        Route::post('/expo-push-token', [ExpoPushTokenController::class, 'store'])->name('api.v1.expo-push-token.store');
     });
 });

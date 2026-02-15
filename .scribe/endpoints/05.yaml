@@ -1,0 +1,74 @@
+name: Notifications
+description: ''
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/expo-push-token
+    metadata:
+      custom: []
+      groupName: Notifications
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Register (or update) the current device's Expo push token so the server can send notifications."
+      description: ''
+      authenticated: true
+      deprecated: false
+    headers:
+      Authorization: 'Bearer {YOUR_BEARER_TOKEN}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      token:
+        custom: []
+        name: token
+        description: 'Expo push token (ExponentPushToken[xxx]).'
+        required: true
+        example: 'ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      platform:
+        custom: []
+        name: platform
+        description: 'optional ios or android.'
+        required: false
+        example: ios
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      device_name:
+        custom: []
+        name: device_name
+        description: 'optional Device name for display.'
+        required: false
+        example: 'iPhone 15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      token: 'ExponentPushToken[xxxxxxxxxxxxxxxxxxxxxx]'
+      platform: ios
+      device_name: 'iPhone 15'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6g43cv8PD1aE5beadkZfhV6'
+    controller: null
+    method: null
+    route: null

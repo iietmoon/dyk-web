@@ -184,6 +184,7 @@ return [
             'Payments',
             'Articles',
             'Bookmarks',
+            'Notifications',
         ],
     ],
 

@@ -146,4 +146,24 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSetting::class);
     }
+
+    /**
+     * Get the user's app notifications (title, body, sent via Expo).
+     *
+     * @return HasMany<Notification, $this>
+     */
+    public function appNotifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the user's Expo push tokens (for sending push notifications).
+     *
+     * @return HasMany<ExpoPushToken, $this>
+     */
+    public function expoPushTokens(): HasMany
+    {
+        return $this->hasMany(ExpoPushToken::class);
+    }
 }

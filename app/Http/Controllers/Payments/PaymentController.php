@@ -19,11 +19,13 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Subscription;
 use App\Services\EmailService;
+use App\Services\ExpoNotificationService;
 
 class PaymentController extends Controller
 {
     public function __construct(
-        private EmailService $emailService
+        private EmailService $emailService,
+        private ExpoNotificationService $expoNotificationService
     ) {}
 
     /**
@@ -218,6 +220,14 @@ class PaymentController extends Controller
                             ]);
 
                             $this->emailService->sendWelcomeEmail($user);
+
+                            $this->expoNotificationService->sendToUser(
+                                $user,
+                                'You\'re subscribed!',
+                                'Welcome! You now have full access to all content.',
+                                ['screen' => 'Home', 'type' => 'subscription_success'],
+                                'subscription_success'
+                            );
 
                             return view('website.payment-success', [
                                 'transaction' => $transaction,

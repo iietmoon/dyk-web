@@ -509,7 +509,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-me">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (500):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -521,8 +521,7 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;code&quot;: 401,
-    &quot;message&quot;: &quot;Unauthorized&quot;
+    &quot;message&quot;: &quot;Server Error&quot;
 }</code>
  </pre>
     </span>
@@ -1534,7 +1533,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-payment-plans">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (500):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -1546,8 +1545,7 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;code&quot;: 401,
-    &quot;message&quot;: &quot;Unauthorized&quot;
+    &quot;message&quot;: &quot;Server Error&quot;
 }</code>
  </pre>
     </span>
@@ -1838,7 +1836,7 @@ fetch(url, {
 
 <span id="example-responses-GETapi-v1-bookmarks">
             <blockquote>
-            <p>Example response (401):</p>
+            <p>Example response (500):</p>
         </blockquote>
                 <details class="annotation">
             <summary style="cursor: pointer;">
@@ -1850,8 +1848,7 @@ access-control-allow-origin: *
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
-    &quot;code&quot;: 401,
-    &quot;message&quot;: &quot;Unauthorized&quot;
+    &quot;message&quot;: &quot;Server Error&quot;
 }</code>
  </pre>
     </span>

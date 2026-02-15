@@ -233,8 +233,7 @@ class AutheticationController extends Controller
 
         $user->load('settings');
 
-        $expiresAt = now()->addMinutes(config('api.token_expiry_minutes', 60));
-        $newAccessToken = $user->createToken('auth_token', ['*'], $expiresAt);
+        $newAccessToken = $user->createToken('auth_token', ['*']);
 
         return HttpStatusCode::OK->toResponse([
             'message' => 'OTP verified successfully.',

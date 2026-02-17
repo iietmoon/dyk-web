@@ -20,6 +20,7 @@ Route::prefix('v1')->group(function () {
     // Auth (public)
     Route::post('/authenticate', [AutheticationController::class, 'authenticate'])->name('api.v1.authenticate');
     Route::post('/verify-otp', [AutheticationController::class, 'verifyOtp'])->name('api.v1.verify-otp');
+    Route::post('/login-google', [AutheticationController::class, 'loginWithGoogle'])->name('api.v1.login-google');
 
     Route::middleware(ApiAuthetication::class)->group(function () {
         Route::get('/me', [AutheticationController::class, 'me'])->name('api.v1.me');
@@ -32,6 +33,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/payment/create-link', [PaymentController::class, 'createPaymentLink'])->name('api.v1.payment-link.create');
         Route::get('/payment/plans', [PaymentController::class, 'getPlans'])->name('api.v1.payment-plans.get');
         Route::get('/articles', [ArticleController::class, 'index'])->name('api.v1.articles.index');
+        Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('api.v1.articles.show');
 
         // Article bookmarks (list / save / remove)
         Route::get('/bookmarks', [ArticleBookmarkController::class, 'index'])->name('api.v1.bookmarks.index');

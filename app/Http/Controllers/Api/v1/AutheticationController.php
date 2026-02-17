@@ -10,15 +10,18 @@ use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\UserSetting;
 use App\Services\EmailService;
+use App\Services\GoogleAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use InvalidArgumentException;
 
 class AutheticationController extends Controller
 {
     public function __construct(
-        private EmailService $emailService
+        private EmailService $emailService,
+        private GoogleAuthService $googleAuthService
     ) {}
 
     /**
@@ -164,6 +167,78 @@ class AutheticationController extends Controller
 
         return HttpStatusCode::OK->toResponse([
             'message' => 'OTP sent to your email.',
+        ]);
+    }
+
+    /**
+     * Login with Google (mobile). Send the ID token from Google Sign-In; returns same access token shape as verify-otp.
+     *
+     * @group Authentication
+     * @unauthenticated
+     * @bodyParam id_token string required Google ID token from mobile Sign-In. Example: eyJhbGc...
+     */
+    public function loginWithGoogle(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_token' => ['required', 'string'],
+        ]);
+
+        if ($validator->fails()) {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        try {
+            $payload = $this->googleAuthService->verifyIdToken($request->input('id_token'));
+        } catch (InvalidArgumentException $e) {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => [
+                    'id_token' => [$e->getMessage()],
+                ],
+            ]);
+        }
+
+        $email = $payload['email'];
+        $name = $payload['name'] ?? Str::before($email, '@');
+
+        $user = User::where('email', $email)->first();
+        $is_new_user = false;
+
+        if (! $user) {
+            $user = User::create([
+                'name' => $name,
+                'email' => $email,
+                'email_verified_at' => now(),
+            ]);
+            UserSetting::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'text_size' => TextSize::Medium,
+                    'appearance_mode' => AppearanceMode::System,
+                    'daily_reminder_notification' => true,
+                    'best_fact_notification' => true,
+                ]
+            );
+            $is_new_user = true;
+        } else {
+            $user->update([
+                'email_verified_at' => now(),
+                'name' => $user->name ?: $name,
+            ]);
+        }
+
+        $user->load('settings');
+
+        $newAccessToken = $user->createToken('auth_token', ['*']);
+
+        return HttpStatusCode::OK->toResponse([
+            'message' => 'Signed in with Google successfully.',
+            'data' => [
+                'token' => $newAccessToken->plainTextToken,
+                'user' => $user,
+                'is_new_user' => $is_new_user,
+            ],
         ]);
     }
 

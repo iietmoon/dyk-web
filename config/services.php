@@ -45,6 +45,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Google Sign-In (mobile / backend auth)
+    |--------------------------------------------------------------------------
+    | Use the Web application client ID (not Android/iOS client ID) for server-side
+    | ID token verification. Create in Google Cloud Console → APIs & Services → Credentials.
+    */
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Agent / n8n API
     |--------------------------------------------------------------------------
     | Bearer token for agent automation (e.g. n8n). No database; validated against this value.

@@ -56,6 +56,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Sign in with Apple (mobile / backend auth)
+    |--------------------------------------------------------------------------
+    | Client ID = your app's Services ID (for web) or Bundle ID (for iOS app).
+    | The identity token's "aud" claim must match this. Use the same value your
+    | iOS app uses when requesting Sign in with Apple.
+    */
+    'apple' => [
+        'client_id' => env('APPLE_CLIENT_ID'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Agent / n8n API
     |--------------------------------------------------------------------------
     | Bearer token for agent automation (e.g. n8n). No database; validated against this value.

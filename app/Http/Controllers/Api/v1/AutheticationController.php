@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserOtp;
 use App\Models\UserSetting;
 use App\Services\EmailService;
+use App\Services\AppleAuthService;
 use App\Services\GoogleAuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -21,7 +22,8 @@ class AutheticationController extends Controller
 {
     public function __construct(
         private EmailService $emailService,
-        private GoogleAuthService $googleAuthService
+        private GoogleAuthService $googleAuthService,
+        private AppleAuthService $appleAuthService
     ) {}
 
     /**
@@ -234,6 +236,100 @@ class AutheticationController extends Controller
 
         return HttpStatusCode::OK->toResponse([
             'message' => 'Signed in with Google successfully.',
+            'data' => [
+                'token' => $newAccessToken->plainTextToken,
+                'user' => $user,
+                'is_new_user' => $is_new_user,
+            ],
+        ]);
+    }
+
+    /**
+     * Login with Apple (mobile). Send the identity token from Sign in with Apple; returns same access token shape as verify-otp.
+     * Optional: send email and name in body for first-time sign-in (Apple may not include email in the token).
+     *
+     * @group Authentication
+     * @unauthenticated
+     * @bodyParam id_token string required Apple identity token from Sign in with Apple. Example: eyJra...
+     * @bodyParam email string optional Email (required for new users when token does not contain email). Example: user@privaterelay.apple.com
+     * @bodyParam name string optional Full name (first-time only, from Apple auth response). Example: John Doe
+     */
+    public function loginWithApple(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'id_token' => ['required', 'string'],
+            'email' => ['sometimes', 'nullable', 'email'],
+            'name' => ['sometimes', 'nullable', 'string', 'max:255'],
+        ]);
+
+        if ($validator->fails()) {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => $validator->errors(),
+            ]);
+        }
+
+        try {
+            $payload = $this->appleAuthService->verifyIdToken($request->input('id_token'));
+        } catch (InvalidArgumentException $e) {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => [
+                    'id_token' => [$e->getMessage()],
+                ],
+            ]);
+        }
+
+        $appleSub = $payload['sub'];
+        $email = $payload['email'] ?? $request->input('email');
+        $name = $request->input('name') ?? Str::before($email ?? 'user', '@');
+
+        $user = User::where('provider', 'apple')->where('provider_id', $appleSub)->first();
+
+        if (! $user && $email) {
+            $user = User::where('email', $email)->first();
+        }
+
+        $is_new_user = false;
+
+        if (! $user) {
+            if (empty($email)) {
+                return HttpStatusCode::UnprocessableEntity->toResponse([
+                    'errors' => [
+                        'email' => ['Email is required for first-time Sign in with Apple. Send it from the initial auth response.'],
+                    ],
+                ]);
+            }
+            $user = User::create([
+                'name' => $name,
+                'email' => $email,
+                'email_verified_at' => now(),
+                'provider' => 'apple',
+                'provider_id' => $appleSub,
+            ]);
+            UserSetting::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'text_size' => TextSize::Medium,
+                    'appearance_mode' => AppearanceMode::System,
+                    'daily_reminder_notification' => true,
+                    'best_fact_notification' => true,
+                ]
+            );
+            $is_new_user = true;
+        } else {
+            $user->update([
+                'provider' => 'apple',
+                'provider_id' => $appleSub,
+                'email_verified_at' => $user->email_verified_at ?? now(),
+                'name' => $user->name ?: $name,
+            ]);
+        }
+
+        $user->load('settings');
+
+        $newAccessToken = $user->createToken('auth_token', ['*']);
+
+        return HttpStatusCode::OK->toResponse([
+            'message' => 'Signed in with Apple successfully.',
             'data' => [
                 'token' => $newAccessToken->plainTextToken,
                 'user' => $user,

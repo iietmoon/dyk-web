@@ -28,6 +28,8 @@ class User extends Authenticatable
         'birthdate',
         'gender',
         'topics',
+        'provider',
+        'provider_id',
     ];
 
     /**

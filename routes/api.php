@@ -21,6 +21,7 @@ Route::prefix('v1')->group(function () {
     Route::post('/authenticate', [AutheticationController::class, 'authenticate'])->name('api.v1.authenticate');
     Route::post('/verify-otp', [AutheticationController::class, 'verifyOtp'])->name('api.v1.verify-otp');
     Route::post('/login-google', [AutheticationController::class, 'loginWithGoogle'])->name('api.v1.login-google');
+    Route::post('/login-apple', [AutheticationController::class, 'loginWithApple'])->name('api.v1.login-apple');
 
     Route::middleware(ApiAuthetication::class)->group(function () {
         Route::get('/me', [AutheticationController::class, 'me'])->name('api.v1.me');

@@ -80,6 +80,9 @@
                                                                                 <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-login-google">
                                 <a href="#authentication-POSTapi-v1-login-google">Login with Google (mobile). Send the ID token from Google Sign-In; returns same access token shape as verify-otp.</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="authentication-POSTapi-v1-login-apple">
+                                <a href="#authentication-POSTapi-v1-login-apple">Login with Apple (mobile). Send the identity token from Sign in with Apple; returns same access token shape as verify-otp.</a>
+                            </li>
                                                                         </ul>
                             </ul>
                     <ul id="tocify-header-profile" class="tocify-header">
@@ -610,6 +613,166 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>Google ID token from mobile Sign-In. Example: <code>eyJhbGc...</code></p>
+        </div>
+        </form>
+
+                    <h2 id="authentication-POSTapi-v1-login-apple">Login with Apple (mobile). Send the identity token from Sign in with Apple; returns same access token shape as verify-otp.</h2>
+
+<p>
+</p>
+
+<p>Optional: send email and name in body for first-time sign-in (Apple may not include email in the token).</p>
+
+<span id="example-requests-POSTapi-v1-login-apple">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/login-apple" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"id_token\": \"eyJra...\",
+    \"email\": \"user@privaterelay.apple.com\",
+    \"name\": \"John Doe\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/login-apple"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "id_token": "eyJra...",
+    "email": "user@privaterelay.apple.com",
+    "name": "John Doe"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-login-apple">
+</span>
+<span id="execution-results-POSTapi-v1-login-apple" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-login-apple"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-login-apple"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-login-apple" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-login-apple">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-v1-login-apple" data-method="POST"
+      data-path="api/v1/login-apple"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-login-apple', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-login-apple"
+                    onclick="tryItOut('POSTapi-v1-login-apple');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-login-apple"
+                    onclick="cancelTryOut('POSTapi-v1-login-apple');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-login-apple"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/login-apple</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-v1-login-apple"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-v1-login-apple"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>id_token</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id_token"                data-endpoint="POSTapi-v1-login-apple"
+               value="eyJra..."
+               data-component="body">
+    <br>
+<p>Apple identity token from Sign in with Apple. Example: <code>eyJra...</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-v1-login-apple"
+               value="user@privaterelay.apple.com"
+               data-component="body">
+    <br>
+<p>optional Email (required for new users when token does not contain email). Example: <code>user@privaterelay.apple.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-v1-login-apple"
+               value="John Doe"
+               data-component="body">
+    <br>
+<p>optional Full name (first-time only, from Apple auth response). Example: <code>John Doe</code></p>
         </div>
         </form>
 

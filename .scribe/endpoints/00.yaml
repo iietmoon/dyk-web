@@ -142,3 +142,70 @@ endpoints:
     controller: null
     method: null
     route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/login-apple
+    metadata:
+      custom: []
+      groupName: Authentication
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Login with Apple (mobile). Send the identity token from Sign in with Apple; returns same access token shape as verify-otp.'
+      description: 'Optional: send email and name in body for first-time sign-in (Apple may not include email in the token).'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      id_token:
+        custom: []
+        name: id_token
+        description: 'Apple identity token from Sign in with Apple.'
+        required: true
+        example: eyJra...
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email:
+        custom: []
+        name: email
+        description: 'optional Email (required for new users when token does not contain email).'
+        required: false
+        example: user@privaterelay.apple.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+      name:
+        custom: []
+        name: name
+        description: 'optional Full name (first-time only, from Apple auth response).'
+        required: false
+        example: 'John Doe'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      id_token: eyJra...
+      email: user@privaterelay.apple.com
+      name: 'John Doe'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

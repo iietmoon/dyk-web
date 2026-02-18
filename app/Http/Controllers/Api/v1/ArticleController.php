@@ -37,7 +37,9 @@ class ArticleController extends Controller
 
         if ($hasSubscription) {
             $articles = $query->paginate(self::PER_PAGE);
-            $items = collect($articles->items())->map(fn (Article $a) => $this->formatArticleForResponse($a))->all();
+            $articleIds = collect($articles->items())->pluck('id')->all();
+            $bookmarkedIds = $user->articleBookmarks()->whereIn('article_id', $articleIds)->pluck('article_id')->all();
+            $items = collect($articles->items())->map(fn (Article $a) => $this->formatArticleForResponse($a, $bookmarkedIds))->all();
             $meta = [
                 'current_page' => $articles->currentPage(),
                 'last_page' => $articles->lastPage(),
@@ -48,7 +50,9 @@ class ArticleController extends Controller
             ];
         } else {
             $articles = $query->limit(self::LAST_ARTICLES_WITHOUT_SUBSCRIPTION)->get();
-            $items = $articles->map(fn (Article $a) => $this->formatArticleForResponse($a))->all();
+            $articleIds = $articles->pluck('id')->all();
+            $bookmarkedIds = $user->articleBookmarks()->whereIn('article_id', $articleIds)->pluck('article_id')->all();
+            $items = $articles->map(fn (Article $a) => $this->formatArticleForResponse($a, $bookmarkedIds))->all();
             $total = $articles->count();
             $meta = [
                 'current_page' => 1,
@@ -96,20 +100,25 @@ class ArticleController extends Controller
             }
         }
 
+        $data = $article->toArray();
+        $data['bookmarked'] = $user->articleBookmarks()->where('article_id', $article->id)->exists();
+
         return HttpStatusCode::OK->toResponse([
-            'data' => $article->toArray(),
+            'data' => $data,
         ]);
     }
 
     /**
-     * List response: short teaser for body.
+     * List response: short teaser for body + bookmarked flag.
      *
+     * @param  array<string>  $bookmarkedIds  Article IDs the current user has bookmarked
      * @return array<string, mixed>
      */
-    private function formatArticleForResponse(Article $article): array
+    private function formatArticleForResponse(Article $article, array $bookmarkedIds = []): array
     {
         $arr = $article->toArray();
         $arr['body'] = Str::limit(strip_tags($article->body), 200);
+        $arr['bookmarked'] = in_array($article->id, $bookmarkedIds, true);
         return $arr;
     }
 }

@@ -140,6 +140,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the user's article likes.
+     *
+     * @return HasMany<ArticleLike, $this>
+     */
+    public function articleLikes(): HasMany
+    {
+        return $this->hasMany(ArticleLike::class);
+    }
+
+    /**
+     * Get the user's reports (signals/problems).
+     *
+     * @return HasMany<Report, $this>
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
+    }
+
+    /**
      * Get the user's settings (text size, appearance, notifications).
      *
      * @return HasOne<UserSetting, $this>

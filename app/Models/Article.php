@@ -54,4 +54,14 @@ class Article extends Model
     {
         return $this->hasMany(ArticleBookmark::class);
     }
+
+    /**
+     * Get the likes for this article.
+     *
+     * @return HasMany<ArticleLike, $this>
+     */
+    public function likes(): HasMany
+    {
+        return $this->hasMany(ArticleLike::class);
+    }
 }

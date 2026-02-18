@@ -63,5 +63,18 @@ Route::prefix('v1')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('agent')->middleware(AgentBearerToken::class)->group(function () {
-    Route::get('/articles', [N8nController::class, 'getAllArticles'])->name('api.agent.articles');
+    // Articles: list (all or by ?status=), list published only, CRUD
+    Route::get('/articles', [N8nController::class, 'index'])->name('api.agent.articles.index');
+    Route::get('/articles/published', [N8nController::class, 'getAllArticles'])->name('api.agent.articles.published');
+    Route::get('/articles/{article}', [N8nController::class, 'show'])->name('api.agent.articles.show');
+    Route::post('/articles', [N8nController::class, 'store'])->name('api.agent.articles.store');
+    Route::put('/articles/{article}', [N8nController::class, 'update'])->name('api.agent.articles.update');
+    Route::patch('/articles/{article}', [N8nController::class, 'update'])->name('api.agent.articles.patch');
+    Route::delete('/articles/{article}', [N8nController::class, 'destroy'])->name('api.agent.articles.destroy');
+
+    // Notifications: send Expo push to users (or broadcast)
+    Route::post('/notifications/send', [N8nController::class, 'sendNotification'])->name('api.agent.notifications.send');
+
+    // Upload: image → returns URL
+    Route::post('/upload/image', [N8nController::class, 'uploadImage'])->name('api.agent.upload.image');
 });

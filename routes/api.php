@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\v1\ArticleController;
 use App\Http\Controllers\Api\v1\ArticleLikeController;
 use App\Http\Controllers\Api\v1\AutheticationController;
 use App\Http\Controllers\Api\v1\ExpoPushTokenController;
+use App\Http\Controllers\Api\v1\NotificationController;
 use App\Http\Controllers\Api\v1\ReportController;
 use App\Http\Controllers\Agents\N8nController;
 use App\Http\Controllers\Payments\PaymentController;
@@ -51,6 +52,14 @@ Route::prefix('v1')->group(function () {
 
         // Report / signal a problem (with motif)
         Route::post('/reports', [ReportController::class, 'store'])->name('api.v1.reports.store');
+
+        // Notifications (list, show, read, read all, delete, delete all)
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('api.v1.notifications.index');
+        Route::patch('/notifications/read-all', [NotificationController::class, 'readAll'])->name('api.v1.notifications.read-all');
+        Route::delete('/notifications', [NotificationController::class, 'destroyAll'])->name('api.v1.notifications.destroy-all');
+        Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('api.v1.notifications.show');
+        Route::patch('/notifications/{notification}/read', [NotificationController::class, 'read'])->name('api.v1.notifications.read');
+        Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])->name('api.v1.notifications.destroy');
 
         // Expo push token (for sending notifications to mobile app)
         Route::post('/expo-push-token', [ExpoPushTokenController::class, 'store'])->name('api.v1.expo-push-token.store');

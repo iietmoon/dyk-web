@@ -71,6 +71,61 @@ class ArticleController extends Controller
     }
 
     /**
+     * Search published articles by keyword. Same for free and paying users (full catalog search, paginated).
+     * Matching in title, slug, excerpt, body. Opening an article still follows show() rules (free: only last 10).
+     *
+     * @group Articles
+     * @queryParam q string required Search term. Example: science
+     * @queryParam page integer Page number. Example: 1
+     */
+    public function search(Request $request)
+    {
+        $q = $request->input('q', '');
+        $q = is_string($q) ? trim($q) : '';
+
+        if ($q === '') {
+            return HttpStatusCode::UnprocessableEntity->toResponse([
+                'errors' => [
+                    'q' => ['Search term is required.'],
+                ],
+            ]);
+        }
+
+        $user = $request->user()->load('subscription.plan');
+
+        $like = '%' . str_replace(['%', '_', '\\'], ['\\%', '\\_', '\\\\'], $q) . '%';
+
+        $query = Article::query()
+            ->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->where(function ($builder) use ($like) {
+                $builder->where('title', 'like', $like)
+                    ->orWhere('slug', 'like', $like)
+                    ->orWhere('excerpt', 'like', $like)
+                    ->orWhere('body', 'like', $like);
+            })
+            ->orderByDesc('published_at');
+
+        $articles = $query->paginate(self::PER_PAGE);
+        $articleIds = collect($articles->items())->pluck('id')->all();
+        $bookmarkedIds = $user->articleBookmarks()->whereIn('article_id', $articleIds)->pluck('article_id')->all();
+        $items = collect($articles->items())->map(fn (Article $a) => $this->formatArticleForResponse($a, $bookmarkedIds))->all();
+
+        return HttpStatusCode::OK->toResponse([
+            'data' => $items,
+            'meta' => [
+                'current_page' => $articles->currentPage(),
+                'last_page' => $articles->lastPage(),
+                'per_page' => $articles->perPage(),
+                'total' => $articles->total(),
+                'from' => $articles->firstItem(),
+                'to' => $articles->lastItem(),
+            ],
+        ]);
+    }
+
+    /**
      * Show a single published article.
      * Subscribed users: full body. Without subscription: full body only if article is in the last 10 published; otherwise 403.
      *

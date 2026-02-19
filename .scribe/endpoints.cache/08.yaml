@@ -463,7 +463,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: draft
+        example: published
         type: string
         enumValues:
           - draft
@@ -477,7 +477,7 @@ endpoints:
         name: published_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-02-19T11:47:31'
+        example: '2026-02-19T12:26:16'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -510,7 +510,7 @@ endpoints:
         name: is_featured
         description: ''
         required: false
-        example: true
+        example: false
         type: boolean
         enumValues: []
         exampleWasSpecified: false
@@ -544,9 +544,9 @@ endpoints:
       excerpt: architecto
       body: architecto
       image: 'n'
-      status: draft
-      published_at: '2026-02-19T11:47:31'
-      is_featured: true
+      status: published
+      published_at: '2026-02-19T12:26:16'
+      is_featured: false
       sort_order: 84
       user_id: c90237e9-ced5-3af6-88ea-84aeaa148878
     fileParameters: []
@@ -655,7 +655,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: archived
+        example: published
         type: string
         enumValues:
           - draft
@@ -669,7 +669,7 @@ endpoints:
         name: published_at
         description: 'Must be a valid date.'
         required: false
-        example: '2026-02-19T11:47:31'
+        example: '2026-02-19T12:26:16'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -736,8 +736,8 @@ endpoints:
       excerpt: architecto
       body: architecto
       image: 'n'
-      status: archived
-      published_at: '2026-02-19T11:47:31'
+      status: published
+      published_at: '2026-02-19T12:26:16'
       is_featured: true
       sort_order: 84
       user_id: c90237e9-ced5-3af6-88ea-84aeaa148878

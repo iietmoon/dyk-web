@@ -128,6 +128,9 @@
                                                     <li class="tocify-item level-2" data-unique="articles-GETapi-v1-articles">
                                 <a href="#articles-GETapi-v1-articles">List published articles.</a>
                             </li>
+                                                                                <li class="tocify-item level-2" data-unique="articles-GETapi-v1-articles-search">
+                                <a href="#articles-GETapi-v1-articles-search">Search published articles by keyword. Same for free and paying users (full catalog search, paginated).</a>
+                            </li>
                                                                                 <li class="tocify-item level-2" data-unique="articles-GETapi-v1-articles--id-">
                                 <a href="#articles-GETapi-v1-articles--id-">Show a single published article.</a>
                             </li>
@@ -2175,6 +2178,179 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="query">
     <br>
 <p>Page number (subscribed users only). Example: <code>1</code></p>
+            </div>
+                </form>
+
+                    <h2 id="articles-GETapi-v1-articles-search">Search published articles by keyword. Same for free and paying users (full catalog search, paginated).</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Matching in title, slug, excerpt, body. Opening an article still follows show() rules (free: only last 10).</p>
+
+<span id="example-requests-GETapi-v1-articles-search">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/articles/search?q=science&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/articles/search"
+);
+
+const params = {
+    "q": "science",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_BEARER_TOKEN}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-articles-search">
+            <blockquote>
+            <p>Example response (500):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary style="cursor: pointer;">
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre></details>         <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Server Error&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-articles-search" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-articles-search"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-articles-search"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-articles-search" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-articles-search">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-v1-articles-search" data-method="GET"
+      data-path="api/v1/articles/search"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-articles-search', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-articles-search"
+                    onclick="tryItOut('GETapi-v1-articles-search');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-articles-search"
+                    onclick="cancelTryOut('GETapi-v1-articles-search');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-articles-search"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/articles/search</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Authorization" class="auth-value"               data-endpoint="GETapi-v1-articles-search"
+               value="Bearer {YOUR_BEARER_TOKEN}"
+               data-component="header">
+    <br>
+<p>Example: <code>Bearer {YOUR_BEARER_TOKEN}</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-v1-articles-search"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-v1-articles-search"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>q</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="q"                data-endpoint="GETapi-v1-articles-search"
+               value="science"
+               data-component="query">
+    <br>
+<p>Search term. Example: <code>science</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-v1-articles-search"
+               value="1"
+               data-component="query">
+    <br>
+<p>Page number. Example: <code>1</code></p>
             </div>
                 </form>
 
@@ -4837,9 +5013,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"excerpt\": \"architecto\",
     \"body\": \"architecto\",
     \"image\": \"n\",
-    \"status\": \"draft\",
-    \"published_at\": \"2026-02-19T11:47:31\",
-    \"is_featured\": true,
+    \"status\": \"published\",
+    \"published_at\": \"2026-02-19T12:26:16\",
+    \"is_featured\": false,
     \"sort_order\": 84,
     \"user_id\": \"c90237e9-ced5-3af6-88ea-84aeaa148878\"
 }"
@@ -4863,9 +5039,9 @@ let body = {
     "excerpt": "architecto",
     "body": "architecto",
     "image": "n",
-    "status": "draft",
-    "published_at": "2026-02-19T11:47:31",
-    "is_featured": true,
+    "status": "published",
+    "published_at": "2026-02-19T12:26:16",
+    "is_featured": false,
     "sort_order": 84,
     "user_id": "c90237e9-ced5-3af6-88ea-84aeaa148878"
 };
@@ -5044,10 +5220,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PUTapi-agent-articles--id-"
-               value="draft"
+               value="published"
                data-component="body">
     <br>
-<p>Example: <code>draft</code></p>
+<p>Example: <code>published</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>draft</code></li> <li><code>published</code></li> <li><code>archived</code></li></ul>
         </div>
@@ -5058,10 +5234,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="published_at"                data-endpoint="PUTapi-agent-articles--id-"
-               value="2026-02-19T11:47:31"
+               value="2026-02-19T12:26:16"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-02-19T11:47:31</code></p>
+<p>Must be a valid date. Example: <code>2026-02-19T12:26:16</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>topics</code></b>&nbsp;&nbsp;
@@ -5107,7 +5283,7 @@ Must be one of:
             <code>false</code>
         </label>
     <br>
-<p>Example: <code>true</code></p>
+<p>Example: <code>false</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sort_order</code></b>&nbsp;&nbsp;
@@ -5159,8 +5335,8 @@ Must be one of:
     \"excerpt\": \"architecto\",
     \"body\": \"architecto\",
     \"image\": \"n\",
-    \"status\": \"archived\",
-    \"published_at\": \"2026-02-19T11:47:31\",
+    \"status\": \"published\",
+    \"published_at\": \"2026-02-19T12:26:16\",
     \"is_featured\": true,
     \"sort_order\": 84,
     \"user_id\": \"c90237e9-ced5-3af6-88ea-84aeaa148878\"
@@ -5185,8 +5361,8 @@ let body = {
     "excerpt": "architecto",
     "body": "architecto",
     "image": "n",
-    "status": "archived",
-    "published_at": "2026-02-19T11:47:31",
+    "status": "published",
+    "published_at": "2026-02-19T12:26:16",
     "is_featured": true,
     "sort_order": 84,
     "user_id": "c90237e9-ced5-3af6-88ea-84aeaa148878"
@@ -5366,10 +5542,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PATCHapi-agent-articles--article_id-"
-               value="archived"
+               value="published"
                data-component="body">
     <br>
-<p>Example: <code>archived</code></p>
+<p>Example: <code>published</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>draft</code></li> <li><code>published</code></li> <li><code>archived</code></li></ul>
         </div>
@@ -5380,10 +5556,10 @@ Must be one of:
  &nbsp;
                 <input type="text" style="display: none"
                               name="published_at"                data-endpoint="PATCHapi-agent-articles--article_id-"
-               value="2026-02-19T11:47:31"
+               value="2026-02-19T12:26:16"
                data-component="body">
     <br>
-<p>Must be a valid date. Example: <code>2026-02-19T11:47:31</code></p>
+<p>Must be a valid date. Example: <code>2026-02-19T12:26:16</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>topics</code></b>&nbsp;&nbsp;
@@ -5822,8 +5998,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Authorization: Bearer {YOUR_BEARER_TOKEN}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "image=@/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpuab4kj7ri8jq2agLGel" \
-    --form "file=@/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpfl5kv4j8m6kj9xLx4me" </code></pre></div>
+    --form "image=@/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/php3dl421q6t15p99MQIA3" \
+    --form "file=@/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpaej8k17f88eaeH6eQF8" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -5945,7 +6121,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>Image file (jpeg, png, gif, webp). Max 5MB. Example: <code>/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpuab4kj7ri8jq2agLGel</code></p>
+<p>Image file (jpeg, png, gif, webp). Max 5MB. Example: <code>/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/php3dl421q6t15p99MQIA3</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>file</code></b>&nbsp;&nbsp;
@@ -5957,7 +6133,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value=""
                data-component="body">
     <br>
-<p>5MB. This field is required when <code>image</code> is not present. Must be an image. Must not be greater than 5120 kilobytes. Example: <code>/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpfl5kv4j8m6kj9xLx4me</code></p>
+<p>5MB. This field is required when <code>image</code> is not present. Must be an image. Must not be greater than 5120 kilobytes. Example: <code>/private/var/folders/s5/4kkdgcj93m19w3vpp216lzkc0000gn/T/phpaej8k17f88eaeH6eQF8</code></p>
         </div>
         </form>
 

@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/payment/create-link', [PaymentController::class, 'createPaymentLink'])->name('api.v1.payment-link.create');
         Route::get('/payment/plans', [PaymentController::class, 'getPlans'])->name('api.v1.payment-plans.get');
         Route::get('/articles', [ArticleController::class, 'index'])->name('api.v1.articles.index');
+        Route::get('/articles/search', [ArticleController::class, 'search'])->name('api.v1.articles.search');
         Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('api.v1.articles.show');
 
         // Article bookmarks (list / save / remove)
